@@ -1,0 +1,4348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DB GENERAL CONSTRUCTION COMPANY</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/all.min.css" rel="stylesheet">
+    <link href="css/responsive.css" rel="stylesheet">
+    <link href="css/animate.compat.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/integration.css" rel="stylesheet">
+    <link href="css/index-enhancements.css" rel="stylesheet">
+    <link href="css/footer-advanced.css" rel="stylesheet">
+
+    <script defer src="js/utils/api.js"></script>
+    <script defer src="js/utils/notifications.js"></script>
+    <script defer src="js/scripts.js"></script>
+    <script defer src="js/integration.js"></script> 
+    
+    <style>
+        /* Floating Call Back Widget CSS (Existing) */
+        #call-back-widget {
+            position: fixed;
+            bottom: 50%; /* Adjusted for better visibility */
+            right: 0;
+            z-index: 1050;
+            transition: right 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        #call-back-widget.closed {
+            right: -250px; /* Hide the form part */
+        }
+        .widget-button {
+            position: absolute;
+            top: 0;
+            left: -50px; /* Position button next to the form */
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px 0 0 5px;
+            background-color: #dc3545; /* Bootstrap danger color for urgency */
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* Old floating widgets CSS removed - now using FAB menu */
+
+        /* NEW Modal Custom Style */
+        .offer-modal-content {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        .offer-modal-header {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .offer-modal-body {
+            text-align: center;
+            padding-top: 0;
+        }
+        .offer-modal-footer {
+            border-top: none;
+            justify-content: center;
+            padding-top: 0;
+        }
+
+        /* NEW Project Timeline Style */
+        .timeline {
+            position: relative;
+            padding: 0;
+            list-style: none;
+        }
+        .timeline:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            margin-left: -1px;
+            background-color: #e9ecef;
+        }
+        .timeline-item {
+            margin-bottom: 50px;
+            position: relative;
+        }
+        .timeline-item:nth-child(even) {
+            text-align: right;
+        }
+        .timeline-item:nth-child(odd) .timeline-panel {
+            padding: 0 30px 20px 0;
+            text-align: right;
+        }
+        .timeline-item:nth-child(even) .timeline-panel {
+            padding: 0 0 20px 30px;
+            text-align: left;
+        }
+        .timeline-item:nth-child(odd) .timeline-panel:before {
+            right: -14px;
+            border-right-width: 14px;
+            border-left-color: transparent;
+        }
+        .timeline-item:nth-child(even) .timeline-panel:before {
+            left: -14px;
+            border-left-width: 14px;
+            border-right-color: transparent;
+        }
+        .timeline-item:nth-child(odd) .timeline-badge {
+            right: -24px;
+        }
+        .timeline-item:nth-child(even) .timeline-badge {
+            left: -24px;
+        }
+        .timeline-badge {
+            color: #fff;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            font-size: 1.2em;
+            text-align: center;
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            margin-left: -24px;
+            background-color: #adb5bd;
+            z-index: 100;
+            border-radius: 50%;
+        }
+        .timeline-title {
+            margin-top: 0;
+            color: inherit;
+        }
+        .timeline-panel {
+            width: 45%;
+            float: left;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            background-color: #fff;
+            padding: 20px;
+        }
+        .timeline-panel h4 {
+            font-weight: bold;
+        }
+
+        /* NEW Value Proposition Module Style */
+        .value-proposition-module {
+            background-color: #007bff; /* Primary Blue */
+            color: white;
+        }
+        .value-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .value-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        .value-card i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ffc107; /* Warning color for icons */
+        }
+
+        /* NEW Featured Project Module Style */
+        .featured-project-module {
+            background-color: #f8f9fa;
+        }
+        .project-case-study {
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .project-case-study .text-content {
+            padding: 40px;
+            flex: 1;
+        }
+        .project-case-study .image-side {
+            flex: 1;
+            min-height: 400px;
+            background-size: cover;
+            background-position: center;
+        }
+        @media (max-width: 992px) {
+            .project-case-study {
+                flex-direction: column;
+            }
+            .project-case-study .image-side {
+                 width: 100%;
+            }
+            .project-case-study.reverse {
+                flex-direction: column-reverse;
+            }
+        }
+        
+        /* NEW Service Highlight Module Style */
+        .service-highlight-module {
+            background-color: #f0f3f6; /* Light gray background */
+        }
+        .highlight-box {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+        .highlight-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-bottom-color: #007bff; /* Primary color hover effect */
+        }
+        .highlight-box i {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        /* ADVANCED: Interactive Service Selector */
+        .service-selector {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 60px 0;
+        }
+        .service-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .service-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ffc107;
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 193, 7, 0.3);
+        }
+        .service-option.selected {
+            background: rgba(255, 193, 7, 0.3);
+            border-color: #ffc107;
+            border-width: 3px;
+        }
+        .service-option i {
+            font-size: 3.5rem;
+            color: #ffc107;
+            margin-bottom: 20px;
+        }
+
+        /* ADVANCED: Live Statistics Counter */
+        .live-stats {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .live-stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+            opacity: 0.3;
+        }
+        .stat-box {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .stat-box:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.25);
+        }
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #ffc107;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .stat-label {
+            font-size: 1.1rem;
+            color: white;
+            margin-top: 10px;
+        }
+
+        /* ADVANCED: Interactive Project Map Preview */
+        .map-preview {
+            position: relative;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .map-marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #dc3545;
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        .map-marker:hover {
+            transform: scale(1.5);
+            z-index: 10;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+        }
+
+        /* ADVANCED: Testimonial Carousel Enhanced */
+        .testimonial-enhanced {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 80px 0;
+        }
+        .testimonial-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            position: relative;
+            margin: 20px;
+        }
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            font-size: 100px;
+            color: #007bff;
+            opacity: 0.2;
+            font-family: Georgia, serif;
+        }
+        .rating-stars {
+            color: #ffc107;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        /* ADVANCED: Newsletter Popup */
+        .newsletter-popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            padding: 30px;
+            max-width: 400px;
+            z-index: 1040;
+            display: none;
+            animation: slideInRight 0.5s ease-out;
+        }
+        .newsletter-popup.show {
+            display: block;
+        }
+        @keyframes slideInRight {
+            from {
+                transform: translateX(500px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ADVANCED: Progress Bars for Skills */
+        .skill-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 30px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .skill-progress {
+            background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
+            height: 100%;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            color: white;
+            font-weight: bold;
+            transition: width 2s ease-out;
+            width: 0;
+        }
+        .skill-progress.animate {
+            width: var(--progress-width);
+        }
+
+        /* ADVANCED: Floating Action Menu */
+        .fab-menu {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1045;
+        }
+        .fab-main {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .fab-main:hover {
+            transform: rotate(45deg);
+        }
+        .fab-options {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: none;
+        }
+        .fab-options.show {
+            display: block;
+        }
+        .fab-option {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            color: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.3s ease-out;
+        }
+        .fab-option:hover {
+            transform: scale(1.1);
+            background: #007bff;
+            color: white;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ADVANCED: Video Background Section */
+        .video-section {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+        }
+        .video-background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 0;
+        }
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+        .video-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        /* ADVANCED: Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #007bff 0%, #ffc107 100%);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        /* ADVANCED: Dark Mode Styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+        body.dark-mode section {
+            background-color: #2a2a2a;
+        }
+        body.dark-mode .card {
+            background-color: #333;
+            color: #e0e0e0;
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1040;
+            transition: all 0.3s ease;
+        }
+        .dark-mode-toggle:hover {
+            transform: scale(1.1) rotate(180deg);
+        }
+
+        /* ADVANCED: Enhanced Search Overlay */
+        .search-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .search-overlay.active {
+            display: flex;
+        }
+        .search-container {
+            width: 90%;
+            max-width: 600px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 20px 30px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .search-results {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        /* ADVANCED: Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ADVANCED: Image Lazy Load Effect */
+        img[data-src] {
+            filter: blur(10px);
+            transition: filter 0.5s;
+        }
+        img[data-src].loaded {
+            filter: blur(0);
+        }
+
+        /* ADVANCED: Notification Toast */
+        .toast-notification {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1050;
+            display: none;
+            animation: slideInRight 0.5s ease-out;
+        }
+        .toast-notification.show {
+            display: block;
+        }
+        .toast-notification.success {
+            border-left: 5px solid #28a745;
+        }
+        .toast-notification.error {
+            border-left: 5px solid #dc3545;
+        }
+        .toast-notification.info {
+            border-left: 5px solid #17a2b8;
+        }
+
+        /* ADVANCED: 3D Card Hover Effects */
+        .card-3d {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        .card-3d:hover {
+            transform: rotateY(5deg) rotateX(5deg) scale(1.05);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        /* ADVANCED: Before/After Slider */
+        .before-after-slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .before-after-slider img {
+            width: 100%;
+            display: block;
+        }
+        .after-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: white;
+            cursor: ew-resize;
+            z-index: 10;
+        }
+        .slider-handle::before {
+            content: '⟷';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        /* ADVANCED: Social Proof Notification */
+        .social-proof {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 1035;
+            display: none;
+            animation: slideInLeft 0.5s ease-out;
+            max-width: 350px;
+        }
+        .social-proof.show {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-500px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .social-proof-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* ADVANCED: Live Counter Animation */
+        .live-counter {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ADVANCED: Video Testimonial */
+        .video-testimonial {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .video-testimonial:hover {
+            transform: scale(1.05);
+        }
+        .video-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #007bff;
+            transition: all 0.3s ease;
+        }
+        .video-testimonial:hover .video-play-button {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        /* ADVANCED: Interactive Timeline */
+        .interactive-timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+        .timeline-step {
+            position: relative;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid #007bff;
+        }
+        .timeline-step:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .timeline-step.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* ADVANCED: Parallax Effect */
+        .parallax-section {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            min-height: 500px;
+        }
+        .parallax-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .parallax-content {
+            position: relative;
+            z-index: 2;
+            padding: 100px 0;
+        }
+
+        /* ADVANCED: Animated Background Gradient */
+        .gradient-animated {
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ADVANCED: Neumorphism Cards */
+        .neuro-card {
+            background: #e0e5ec;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 
+                9px 9px 16px rgba(163, 177, 198, 0.6),
+                -9px -9px 16px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        .neuro-card:hover {
+            box-shadow: 
+                inset 9px 9px 16px rgba(163, 177, 198, 0.6),
+                inset -9px -9px 16px rgba(255, 255, 255, 0.5);
+        }
+
+        /* ADVANCED: Glowing Button Effect */
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        .btn-glow:hover::before {
+            left: 100%;
+        }
+        .btn-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        /* ADVANCED: Floating Elements Animation */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* ADVANCED: Particle Background */
+        .particle-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: particleFloat 20s linear infinite;
+        }
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* ADVANCED: Morphing Shapes */
+        .morphing-shape {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: morph 8s ease-in-out infinite;
+            position: absolute;
+            opacity: 0.1;
+        }
+        @keyframes morph {
+            0%, 100% {
+                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+                transform: rotate(0deg);
+            }
+            25% {
+                border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+            }
+            50% {
+                border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+                transform: rotate(180deg);
+            }
+            75% {
+                border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+            }
+        }
+
+        /* ADVANCED: Glassmorphism Enhanced */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ADVANCED: Typing Animation */
+        .typing-text {
+            overflow: hidden;
+            border-right: 3px solid #ffc107;
+            white-space: nowrap;
+            animation: typing 4s steps(40) infinite, blink 0.75s step-end infinite;
+        }
+        @keyframes typing {
+            0%, 100% { width: 0; }
+            50% { width: 100%; }
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        /* ADVANCED: Hover Lift Effect */
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ADVANCED: Neon Glow Effect */
+        .neon-text {
+            color: #fff;
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 20px #fff,
+                0 0 40px #0ff,
+                0 0 80px #0ff,
+                0 0 90px #0ff,
+                0 0 100px #0ff,
+                0 0 150px #0ff;
+            animation: neonFlicker 1.5s infinite alternate;
+        }
+        @keyframes neonFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* NEW: AI Chatbot Styles */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 350px;
+            max-height: 500px;
+            z-index: 1030;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        /* NEW: Material Price Card Hover */
+        .material-price-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .material-price-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        /* NEW: Project Comparison Card Pulse */
+        @keyframes cardPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        .comparison-card-featured {
+            animation: cardPulse 2s ease-in-out infinite;
+        }
+
+        /* NEW: Safety Dashboard Gauge */
+        .safety-gauge {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #28a745 0deg 352deg,
+                #e9ecef 352deg 360deg
+            );
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .safety-gauge::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+        }
+        .safety-gauge-value {
+            position: relative;
+            z-index: 1;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        /* NEW: Equipment Card Animation */
+        .equipment-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .equipment-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255,255,255,0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            transition: all 0.5s;
+        }
+        .equipment-card:hover::before {
+            left: 100%;
+        }
+        .equipment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        /* NEW: 3D Visualizer Controls */
+        .visualizer-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            padding: 10px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+        .visualizer-controls button {
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        .visualizer-controls button:hover {
+            transform: scale(1.2);
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* NEW: Live Update Indicator */
+        .live-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #28a745;
+            border-radius: 50%;
+            animation: livePulse 2s ease-in-out infinite;
+            margin-right: 5px;
+        }
+        @keyframes livePulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
+        }
+
+        /* NEW: Comparison Table Responsive */
+        @media (max-width: 768px) {
+            .comparison-card-featured {
+                transform: scale(1) !important;
+                border: 2px solid #ffc107 !important;
+            }
+        }
+
+        /* NEW: Interactive Tooltip */
+        .info-tooltip {
+            position: relative;
+            cursor: help;
+        }
+        .info-tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 0.875rem;
+            z-index: 1000;
+            margin-bottom: 5px;
+        }
+        .info-tooltip:hover::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0,0,0,0.9);
+            margin-bottom: -5px;
+        }
+
+        /* NEW: Price Trend Indicator */
+        .price-trend-up {
+            color: #dc3545;
+            animation: trendBounce 1s ease-in-out infinite;
+        }
+        .price-trend-down {
+            color: #28a745;
+            animation: trendBounce 1s ease-in-out infinite;
+        }
+        @keyframes trendBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* NEW: Feature Badge */
+        .feature-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(238, 90, 111, 0.4);
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* NEW: Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeletonLoading 1.5s ease-in-out infinite;
+            border-radius: 4px;
+        }
+        @keyframes skeletonLoading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* NEW: Success Checkmark Animation */
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+        }
+        .success-checkmark .check-icon {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            border-radius: 50%;
+            box-sizing: content-box;
+            border: 4px solid #28a745;
+        }
+        .success-checkmark .check-icon::before {
+            top: 3px;
+            left: -2px;
+            width: 30px;
+            transform-origin: 100% 50%;
+            border-radius: 100px 0 0 100px;
+        }
+        .success-checkmark .check-icon::after {
+            top: 0;
+            left: 30px;
+            width: 60px;
+            transform-origin: 0 50%;
+            border-radius: 0 100px 100px 0;
+            animation: rotateCircle 4.25s ease-in;
+        }
+        .success-checkmark .check-icon .icon-line {
+            height: 5px;
+            background-color: #28a745;
+            display: block;
+            border-radius: 2px;
+            position: absolute;
+            z-index: 10;
+        }
+        .success-checkmark .check-icon .icon-line.line-tip {
+            top: 46px;
+            left: 14px;
+            width: 25px;
+            transform: rotate(45deg);
+            animation: iconLineTip 0.75s;
+        }
+        .success-checkmark .check-icon .icon-line.line-long {
+            top: 38px;
+            right: 8px;
+            width: 47px;
+            transform: rotate(-45deg);
+            animation: iconLineLong 0.75s;
+        }
+        @keyframes rotateCircle {
+            0% { transform: rotate(-45deg); }
+            5% { transform: rotate(-45deg); }
+            12% { transform: rotate(-405deg); }
+            100% { transform: rotate(-405deg); }
+        }
+        @keyframes iconLineTip {
+            0% { width: 0; left: 1px; top: 19px; }
+            54% { width: 0; left: 1px; top: 19px; }
+            70% { width: 50px; left: -8px; top: 37px; }
+            84% { width: 17px; left: 21px; top: 48px; }
+            100% { width: 25px; left: 14px; top: 45px; }
+        }
+        @keyframes iconLineLong {
+            0% { width: 0; right: 46px; top: 54px; }
+            65% { width: 0; right: 46px; top: 54px; }
+            84% { width: 55px; right: 0px; top: 35px; }
+            100% { width: 47px; right: 8px; top: 38px; }
+        }
+
+        /* NEW: Responsive Grid for New Sections */
+        @media (max-width: 992px) {
+            .chatbot-widget {
+                width: 90%;
+                right: 5%;
+            }
+            .visualizer-controls {
+                bottom: 10px;
+                padding: 5px 10px;
+            }
+            .visualizer-controls button {
+                font-size: 0.875rem;
+                padding: 5px 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            .live-counter {
+                font-size: 2rem;
+            }
+            .equipment-card {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ADVANCED: Scroll Progress Indicator -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ADVANCED: Dark Mode Toggle -->
+<button class="dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
+    <i class="fas fa-moon"></i>
+</button>
+
+<!-- ADVANCED: Enhanced Search Overlay -->
+<div class="search-overlay" id="searchOverlay">
+    <div class="search-container">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search projects, services, team members..." autofocus>
+        <button class="btn btn-light mt-3" onclick="closeSearch()">
+            <i class="fas fa-times me-2"></i>Close
+        </button>
+        <div class="search-results" id="searchResults"></div>
+    </div>
+</div>
+
+<section id="sec-0">
+    <header class="top">
+        <div class="container">
+            <p>📞 +251-9115-9012</p>
+            <p>📧 support@db general construction.com</p>
+            <p>🕘 Mon–Sat: 8:00 AM – 6:00 PM</p>
+
+            <div class="social">
+                <a href="#" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" title="Behance"><i class="fa-brands fa-behance"></i></a>
+                <a href="#" title="Dribbble"><i class="fa-solid fa-basketball"></i></a>
+                <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <header>
+        <div class="hide" id="searchBar">
+            <input type="search" id="searchBox" placeholder="Type your search here…  Press [Esc] to exit">
+        </div>
+
+        <div class="container">
+            <h1 class="logo">
+                <span>DB</span> GENERAL <span>CONSTRUCTION <span> COMPANY</span>
+                <p>We provide reliable, innovative, and sustainable construction solutions across Ethiopia.</p>
+            </h1>
+
+            <label for="menu"><i class="fas fa-bars"></i></label>
+            <input type="checkbox" id="menu">
+
+            <nav>
+                <a href="#sec-0">Home</a>
+                <a href="#sec-3">Services</a>
+                <a href="#sec-4">Projects</a>
+                <a href="project-gallery.html">Gallery</a>
+                <a href="project-map.html">Project Map</a>
+                <a href="cost-calculator.html">Cost Calculator</a>
+                <a href="service-comparison.html">Compare Services</a>
+                <a href="resource-center.html">Resources</a>
+                <a href="client-login.html">Client Portal</a>
+                <a href="live-chat-demo.html">Live Chat</a>
+                <a href="newsletter-subscribe.html">Newsletter</a>
+                <a href="#sec-8">Team</a>
+                <a href="#sec-13">Blog</a>
+                <a href="#sec-5">Contact</a>
+                <a href="admin-login.html" style="color: #ffc107;">Admin</a>
+                <i class="fa-solid fa-magnifying-glass" id="search" style="margin-left: auto;"></i>
+            </nav>
+        </div>
+    </header>
+
+    <article>
+        <div class="container hero">
+            <h1>We Are Certified Engineers</h1>
+
+            <h2>
+                Professional Construction Services<br>
+                <span>Creative • Reliable • Experienced</span>
+            </h2>
+
+            <p>
+                DB General Construction PLC delivers high-quality construction solutions 
+                with a focus on safety, precision, and customer satisfaction. Our team 
+                ensures every project—from residential developments to large-scale 
+                infrastructure—meets the highest industry standards.
+            </p>
+
+            <a href="#sec-5" class="btn-main">Get a Quote</a>
+            <a href="#sec-4" class="btn-outline">View Projects</a>
+            <a href="cost-calculator.html" class="btn-outline" style="background: #ffc107; color: #000; border-color: #ffc107;">
+                <i class="fas fa-calculator me-2"></i>Try Cost Calculator
+            </a>
+        </div>
+    </article>
+</section>
+
+<!-- NEW Digital Tools Section -->
+<section id="sec-digital-tools" class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="text-center text-white mb-5">
+            <h1 class="display-5 fw-bold mb-3">Digital Construction Tools</h1>
+            <p class="lead">Experience the future of construction with our innovative online platform</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4 wow animated fadeInUp" data-wow-delay="0.1s">
+                <div class="card h-100 border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3" style="font-size: 4rem; color: #007bff;">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3">Cost Calculator</h3>
+                        <p class="text-muted mb-4">
+                            Get instant cost estimates for your construction project. Input your specifications and receive a detailed breakdown within seconds.
+                        </p>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Instant estimates</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Detailed cost breakdown</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Save & email results</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Regional pricing</li>
+                        </ul>
+                        <a href="cost-calculator.html" class="btn btn-primary btn-lg w-100">
+                            <i class="fas fa-calculator me-2"></i>Calculate Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 wow animated fadeInUp" data-wow-delay="0.3s">
+                <div class="card h-100 border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3" style="font-size: 4rem; color: #28a745;">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3">Project Tracking</h3>
+                        <p class="text-muted mb-4">
+                            Monitor your project's progress in real-time. Access timelines, milestones, and updates from anywhere, anytime.
+                        </p>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Real-time updates</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Timeline visualization</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Document uploads</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Progress tracking</li>
+                        </ul>
+                        <a href="client-login.html" class="btn btn-success btn-lg w-100">
+                            <i class="fas fa-sign-in-alt me-2"></i>Client Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 wow animated fadeInUp" data-wow-delay="0.5s">
+                <div class="card h-100 border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3" style="font-size: 4rem; color: #dc3545;">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3">Live Support</h3>
+                        <p class="text-muted mb-4">
+                            Get instant answers to your questions. Our expert team is ready to assist you with consultations and project inquiries.
+                        </p>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Instant messaging</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Expert consultations</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Chat history</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>24/7 availability</li>
+                        </ul>
+                        <a href="https://wa.me/25191159012" target="_blank" class="btn btn-danger btn-lg w-100">
+                            <i class="fab fa-whatsapp me-2"></i>Chat Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-5">
+            <div class="alert alert-light d-inline-block shadow-sm" style="border-radius: 10px;">
+                <i class="fas fa-info-circle text-primary me-2"></i>
+                <strong>New to our platform?</strong> Try our <a href="cost-calculator.html" class="text-primary fw-bold">Cost Calculator</a> for free estimates!
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ADVANCED: Interactive Service Selector -->
+<section id="sec-service-selector" class="service-selector">
+    <div class="container">
+        <div class="text-center text-white mb-5">
+            <h1 class="display-5 fw-bold mb-3">What Type of Project Do You Need?</h1>
+            <p class="lead">Select your project type to get personalized information and instant cost estimates</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6 wow animated zoomIn" data-wow-delay="0.1s">
+                <div class="service-option text-center text-white" data-service="residential" onclick="selectService('residential')">
+                    <i class="fas fa-home"></i>
+                    <h4 class="fw-bold mt-3">Residential</h4>
+                    <p class="small">Homes, Villas, Apartments</p>
+                    <div class="mt-3">
+                        <span class="badge bg-warning text-dark">Popular</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 wow animated zoomIn" data-wow-delay="0.2s">
+                <div class="service-option text-center text-white" data-service="commercial" onclick="selectService('commercial')">
+                    <i class="fas fa-building"></i>
+                    <h4 class="fw-bold mt-3">Commercial</h4>
+                    <p class="small">Offices, Retail, Hotels</p>
+                    <div class="mt-3">
+                        <span class="badge bg-info">High-Rise</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 wow animated zoomIn" data-wow-delay="0.3s">
+                <div class="service-option text-center text-white" data-service="industrial" onclick="selectService('industrial')">
+                    <i class="fas fa-industry"></i>
+                    <h4 class="fw-bold mt-3">Industrial</h4>
+                    <p class="small">Factories, Warehouses</p>
+                    <div class="mt-3">
+                        <span class="badge bg-danger">Large Scale</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 wow animated zoomIn" data-wow-delay="0.4s">
+                <div class="service-option text-center text-white" data-service="renovation" onclick="selectService('renovation')">
+                    <i class="fas fa-tools"></i>
+                    <h4 class="fw-bold mt-3">Renovation</h4>
+                    <p class="small">Remodeling, Upgrades</p>
+                    <div class="mt-3">
+                        <span class="badge bg-success">Quick Start</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-5">
+            <button class="btn btn-warning btn-lg fw-bold" onclick="proceedWithSelection()">
+                <i class="fas fa-arrow-right me-2"></i>Get Started with Selected Service
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ADVANCED: Live Statistics with Animation -->
+<section id="sec-live-stats" class="live-stats py-5">
+    <div class="container">
+        <div class="text-center text-white mb-5">
+            <h1 class="display-5 fw-bold mb-3">Our Impact in Numbers</h1>
+            <p class="lead">Real-time statistics showcasing our commitment to excellence</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6 wow animated fadeInUp" data-wow-delay="0.1s">
+                <div class="stat-box text-center">
+                    <i class="fas fa-hard-hat fa-3x text-warning mb-3"></i>
+                    <div class="stat-number" data-target="10">0</div>
+                    <div class="stat-label">Years Experience</div>
+                    <div class="mt-2">
+                        <small class="text-white-50">Since 2010</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 wow animated fadeInUp" data-wow-delay="0.2s">
+                <div class="stat-box text-center">
+                    <i class="fas fa-project-diagram fa-3x text-warning mb-3"></i>
+                    <div class="stat-number" data-target="50">0</div>
+                    <div class="stat-label">Completed Projects</div>
+                    <div class="mt-2">
+                        <small class="text-white-50">And counting...</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 wow animated fadeInUp" data-wow-delay="0.3s">
+                <div class="stat-box text-center">
+                    <i class="fas fa-users fa-3x text-warning mb-3"></i>
+                    <div class="stat-number" data-target="50">0</div>
+                    <div class="stat-label">Team Members</div>
+                    <div class="mt-2">
+                        <small class="text-white-50">Skilled Professionals</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 wow animated fadeInUp" data-wow-delay="0.4s">
+                <div class="stat-box text-center">
+                    <i class="fas fa-smile fa-3x text-warning mb-3"></i>
+                    <div class="stat-number" data-target="80">0</div>
+                    <div class="stat-label">Client Satisfaction %</div>
+                    <div class="mt-2">
+                        <small class="text-white-50">Based on surveys</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div class="text-center text-white">
+                    <h4 class="mb-4">Our Expertise Areas</h4>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="--progress-width: 95%;">95%</div>
+                            </div>
+                            <p class="text-white">Quality Assurance</p>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="--progress-width: 90%;">90%</div>
+                            </div>
+                            <p class="text-white">On-Time Delivery</p>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="--progress-width: 92%;">92%</div>
+                            </div>
+                            <p class="text-white">Safety Standards</p>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="--progress-width: 88%;">88%</div>
+                            </div>
+                            <p class="text-white">Innovation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ADVANCED: Interactive Project Map -->
+<section id="sec-project-map" class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="mb-3">Our Projects Across Ethiopia</h1>
+            <p class="lead">Click on the markers to see our completed projects in different regions</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 mb-4">
+                <div class="map-preview" style="background: url('Images/bg2.jpg') center/cover;">
+                    <!-- Addis Ababa -->
+                    <div class="map-marker" style="top: 45%; left: 48%;" 
+                         data-project="Addis Ababa Commercial Tower" 
+                         onclick="showProjectInfo('addis')">
+                    </div>
+                    <!-- Adama -->
+                    <div class="map-marker" style="top: 30%; left: 42%;" 
+                         data-project="Adama Residential Complex" 
+                         onclick="showProjectInfo('bahir')">
+                    </div>
+                    <!-- Chaka -->
+                    <div class="map-marker" style="top: 65%; left: 45%;" 
+                         data-project="Chaka Project" 
+                         onclick="showProjectInfo('hawassa')">
+                    </div>
+                    <!-- Dire Dawa -->
+                    <div class="map-marker" style="top: 55%; left: 70%;" 
+                         data-project="Dire Dawa Infrastructure" 
+                         onclick="showProjectInfo('dire')">
+                    </div>
+                    <!-- Sheger -->
+                    <div class="map-marker" style="top: 20%; left: 52%;" 
+                         data-project="Sheger General Hospital" 
+                         onclick="showProjectInfo('mekelle')">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card border-0 shadow-lg h-100">
+                    <div class="card-body">
+                        <h4 class="fw-bold mb-4">
+                            <i class="fas fa-map-marked-alt text-primary me-2"></i>Project Locations
+                        </h4>
+                        <div id="project-info">
+                            <p class="text-muted">Click on any marker to view project details</p>
+                            <div class="mt-4">
+                                <h6 class="fw-bold">Quick Stats:</h6>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>12 Regions Covered</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>45+ Cities</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>320+ Projects</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>100% Success Rate</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <a href="#sec-4" class="btn btn-primary w-100">
+                                <i class="fas fa-images me-2"></i>View All Projects
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="sec-1">
+    <div class="container">
+        <article>
+            <h1>Welcome to Our Company</h1>
+            <h2>DB General Construction PLC</h2>
+
+            <p>
+                With years of industry experience, we deliver commercial, residential, 
+                and civil engineering projects with exceptional quality and consistency. 
+                Our approach emphasizes transparency, collaboration, and delivering 
+                long-lasting value to our clients.
+            </p>
+
+            <a href="#" class="btn-main">Learn More</a>
+        </article>
+
+        <aside>
+            <img src="Images/dale.png" alt="Engineer illustration">
+        </aside>
+    </div>
+</section>
+
+<section id="sec-2">
+    <div class="container">
+        <h1>Why Choose Us?</h1>
+        <p>
+            We stand out by delivering reliable, efficient, and innovative construction 
+            solutions. Our commitment to excellence and customer satisfaction drives 
+            everything we do.
+        </p>
+
+        <article class="features">
+            <figure>
+                <div><img src="Images/ico1.png" alt=""></div>
+                <div class="cont">
+                    <h2>High-Quality Delivery</h2>
+                    <p>We maintain strict quality standards on every project we complete.</p>
+                </div>
+            </figure>
+
+            <figure>
+                <div><img src="Images/ico2.png" alt=""></div>
+                <div class="cont">
+                    <h2>Always On Time</h2>
+                    <p>Punctual execution ensures efficient workflow and timely completion.</p>
+                </div>
+            </figure>
+
+            <figure>
+                <div><img src="Images/ico3.png" alt=""></div>
+                <div class="cont">
+                    <h2>Driven by Passion</h2>
+                    <p>Our team is motivated by innovation, creativity, and excellence.</p>
+                </div>
+            </figure>
+
+            <figure>
+                <div><img src="Images/ico4.png" alt=""></div>
+                <div class="cont">
+                    <h2>Professional Services</h2>
+                    <p>We employ trained professionals with years of practical experience.</p>
+                </div>
+            </figure>
+        </article>
+    </div>
+</section>
+
+<section id="sec-25" class="value-proposition-module py-5">
+    <div class="container text-center">
+        <h1 class="text-white mb-4">Our Core Values</h1>
+        <p class="lead mb-5">
+            The principles that define our work, our people, and our commitment to you.
+        </p>
+        <div class="row">
+            <div class="col-md-4 mb-4 wow animated fadeIn" data-wow-delay="0.1s">
+                <div class="value-card h-100">
+                    <i class="fas fa-handshake"></i>
+                    <h4 class="fw-bold">Integrity & Trust</h4>
+                    <p class="small">Upholding the highest ethical standards, ensuring transparent communication, and building long-term relationships based on trust.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 wow animated fadeIn" data-wow-delay="0.3s">
+                <div class="value-card h-100">
+                    <i class="fas fa-lightbulb"></i>
+                    <h4 class="fw-bold">Innovation & Efficiency</h4>
+                    <p class="small">Continuously seeking smarter construction methods, adopting new technology, and driving project efficiency to deliver better value.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 wow animated fadeIn" data-wow-delay="0.5s">
+                <div class="value-card h-100">
+                    <i class="fas fa-users-gear"></i>
+                    <h4 class="fw-bold">Partnership & Safety</h4>
+                    <p class="small">Collaborating closely with clients and stakeholders, while ensuring a Zero-Incident safety culture for all personnel.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="sec-23" class="sustainability-module py-5 bg-light">
+    <div class="container text-center">
+        <h1 class="text-success">Building a Greener Future</h1>
+        <p class="lead mb-5">
+            Our commitment to **sustainable construction** ensures we minimize our environmental footprint while maximizing long-term value.
+        </p>
+
+        <div class="row">
+            <div class="col-md-4 mb-4 wow animated fadeInUp" data-wow-delay="0.1s">
+                <div class="p-4 h-100 border rounded shadow-sm bg-white">
+                    <i class="fas fa-leaf fa-3x text-success mb-3"></i>
+                    <h4 class="fw-bold">Green Materials</h4>
+                    <p>Prioritizing locally sourced and recycled materials to reduce carbon emissions from transport and production.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 wow animated fadeInUp" data-wow-delay="0.3s">
+                <div class="p-4 h-100 border rounded shadow-sm bg-white">
+                    <i class="fas fa-water fa-3x text-info mb-3"></i>
+                    <h4 class="fw-bold">Water Efficiency</h4>
+                    <p>Implementing smart water management systems in design, including rainwater harvesting and efficient fixtures.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 wow animated fadeInUp" data-wow-delay="0.5s">
+                <div class="p-4 h-100 border rounded shadow-sm bg-white">
+                    <i class="fas fa-solar-panel fa-3x text-warning mb-3"></i>
+                    <h4 class="fw-bold">Energy Optimization</h4>
+                    <p>Designing structures for maximum natural light, insulation, and integration of renewable energy sources.</p>
+                </div>
+            </div>
+        </div>
+         <a href="#" class="btn btn-outline-success btn-lg mt-4">View Sustainability Report</a>
+    </div>
+</section>
+<section id="sec-15" class="safety-quality-module py-5">
+    <div class="container text-center">
+        <h1>Our Commitment: Safety & Quality</h1>
+        <p class="lead mb-5">
+            Excellence is non-negotiable. We adhere to the strictest international and Ethiopian construction standards.
+        </p>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="p-4 border rounded shadow-sm h-100">
+                    <i class="fas fa-shield-alt fa-3x text-danger mb-3"></i>
+                    <h4 class="fw-bold">Zero-Incident Safety Culture</h4>
+                    <p>
+                        Safety is our number one priority. We implement daily safety briefings, mandatory PPE, and continuous training to protect our workforce and project sites.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="p-4 border rounded shadow-sm h-100">
+                    <i class="fas fa-medal fa-3x text-warning mb-3"></i>
+                    <h4 class="fw-bold">Certified Quality Assurance</h4>
+                    <p>
+                        Every stage of construction is monitored through rigorous quality control checks, ensuring compliance with specifications and delivering durable, long-lasting structures.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="sec-16" class="awards-module py-5 bg-light">
+    <div class="container text-center">
+        <h1>Recognitions & Certifications</h1>
+        <p class="lead mb-5">
+            Proudly recognized for compliance, quality management, and industry excellence.
+        </p>
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <i class="fas fa-certificate fa-3x text-success mb-3"></i>
+                    <h4 class="fw-bold">ISO 9001:2015 Certified</h4>
+                    <p>Quality Management System for consistent and high-standard delivery.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <i class="fas fa-gavel fa-3x text-primary mb-3"></i>
+                    <h4 class="fw-bold">Ethiopian Grade 1 License</h4>
+                    <p>Highest classification for General Building and Road Construction.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="p-4 bg-white border rounded shadow-sm h-100">
+                    <i class="fas fa-trophy fa-3x text-warning mb-3"></i>
+                    <h4 class="fw-bold">National Safety Award 2024</h4>
+                    <p>Awarded for achieving the lowest site incident rate in the region.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="sec-10" class="clients-module py-5">
+    <div class="container text-center">
+        <h2 class="mb-5">Our Valued Partners and Clients</h2>
+        <div id="clientLogoCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#clientLogoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#clientLogoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row align-items-center">
+                        <div class="col-3"><img src="Images/ico1.png" class="img-fluid" alt="Client Logo 1"></div>
+                        <div class="col-3"><img src="Images/ico2.png" class="img-fluid" alt="Client Logo 2"></div>
+                        <div class="col-3"><img src="Images/ico3.png" class="img-fluid" alt="Client Logo 3"></div>
+                        <div class="col-3"><img src="Images/ico4.png" class="img-fluid" alt="Client Logo 4"></div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row align-items-center">
+                        <div class="col-3"><img src="Images/block-ico1.png" class="img-fluid" alt="Client Logo 5"></div>
+                        <div class="col-3"><img src="Images/block-ico2.png" class="img-fluid" alt="Client Logo 6"></div>
+                        <div class="col-3"><img src="Images/ico1.png" class="img-fluid" alt="Client Logo 7"></div>
+                        <div class="col-3"><img src="Images/ico2.png" class="img-fluid" alt="Client Logo 8"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#clientLogoCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#clientLogoCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        
+    </div>
+</section>
+
+<section id="sec-24" class="partners-module py-5 bg-dark text-white">
+    <div class="container text-center">
+        <h2 class="mb-5">Our Trusted Supply Chain Partners</h2>
+        <p class="lead mb-4">
+            We collaborate with industry-leading suppliers to ensure the highest quality materials and equipment for your project.
+        </p>
+        <div class="row justify-content-center">
+            <div class="col-md-3 mb-4 wow animated zoomIn" data-wow-delay="0.1s">
+                <i class="fas fa-warehouse fa-3x text-warning mb-3"></i>
+                <h4 class="fw-bold">Mega Cement PLC</h4>
+                <p class="small text-muted">Primary Cement & Aggregate Supplier</p>
+            </div>
+            <div class="col-md-3 mb-4 wow animated zoomIn" data-wow-delay="0.3s">
+                <i class="fas fa-hard-hat fa-3x text-warning mb-3"></i>
+                <h4 class="fw-bold">Ethio Steel Works</h4>
+                <p class="small text-muted">Structural Steel Fabrication</p>
+            </div>
+            <div class="col-md-3 mb-4 wow animated zoomIn" data-wow-delay="0.5s">
+                <i class="fas fa-truck-moving fa-3x text-warning mb-3"></i>
+                <h4 class="fw-bold">Afro Logistics</h4>
+                <p class="small text-muted">Heavy Equipment Transport</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="sec-3">
+    <div class="container">
+        <h1>Our Services</h1>
+
+        <div class="cont services">
+            <div class="card border-0">
+                <div>
+                    <img src="Images/card1.jpg" class="card-img-top" alt="Construction management">
+                    <h5 class="caption">Construction Management</h5>
+                </div>
+                <div class="card-body px-0 pt-4">
+                    <p>
+                        We manage construction projects from planning to delivery, ensuring 
+                        efficiency, quality, and seamless coordination across all stages.
+                    </p>
+                    <a href="#">Learn More</a>
+                </div>
+            </div>
+
+            <div class="card border-0">
+                <div>
+                    <img src="Images/card2.jpg" class="card-img-top" alt="Renovation">
+                    <h5 class="caption">Renovation</h5>
+                </div>
+                <div class="card-body px-0 pt-4">
+                    <p>
+                        Whether residential or commercial, we modernize spaces with 
+                        functionality, beauty, and structural integrity.
+                    </p>
+                    <a href="#">Learn More</a>
+                </div>
+            </div>
+
+            <div class="card border-0">
+                <div>
+                    <img src="Images/card3.jpg" class="card-img-top" alt="Architecture design">
+                    <h5 class="caption">Architecture</h5>
+                </div>
+                <div class="card-body px-0 pt-4">
+                    <p>
+                        Our architectural solutions combine creativity and engineering to 
+                        create inspiring, efficient, and innovative designs.
+                    </p>
+                    <a href="#">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEW Cost Calculator CTA Banner -->
+<section id="sec-calculator-cta" class="py-4" style="background: linear-gradient(90deg, #ffc107 0%, #ff9800 100%);">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h3 class="fw-bold mb-2 text-dark">
+                    <i class="fas fa-calculator me-2"></i>Need a Quick Cost Estimate?
+                </h3>
+                <p class="mb-0 text-dark">
+                    Use our free online calculator to get instant pricing for your construction project. No registration required!
+                </p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <a href="cost-calculator.html" class="btn btn-dark btn-lg fw-bold">
+                    <i class="fas fa-arrow-right me-2"></i>Calculate Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="sec-27" class="service-highlight-module py-5">
+    <div class="container text-center">
+        <h1 class="mb-4">Our Expertise in Detail</h1>
+        <p class="lead mb-5">
+            We cover a broad spectrum of construction needs, ensuring specialized solutions for every sector.
+        </p>
+
+        <div class="row">
+            <div class="col-md-4 mb-4 wow animated zoomIn" data-wow-delay="0.1s">
+                <div class="highlight-box h-100">
+                    <i class="fas fa-city"></i>
+                    <h4 class="fw-bold">Commercial & Industrial</h4>
+                    <p>
+                        Specializing in high-rise offices, manufacturing facilities, and retail centers. We deliver scalable, efficient, and future-proof commercial spaces.
+                    </p>
+                    <a href="#" class="btn btn-sm btn-outline-primary mt-2">View Commercial Portfolio</a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 wow animated zoomIn" data-wow-delay="0.3s">
+                <div class="highlight-box h-100">
+                    <i class="fas fa-house-chimney"></i>
+                    <h4 class="fw-bold">Residential Development</h4>
+                    <p>
+                        From luxury villas to multi-unit apartment complexes, we build homes designed for comfort, durability, and modern living standards.
+                    </p>
+                    <a href="#" class="btn btn-sm btn-outline-primary mt-2">Start Your Home Project</a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 wow animated zoomIn" data-wow-delay="0.5s">
+                <div class="highlight-box h-100">
+                    <i class="fas fa-road"></i>
+                    <h4 class="fw-bold">Infrastructure & Civil Works</h4>
+                    <p>
+                        Expertise in complex civil projects including road construction, bridges, and utility installation, supporting Ethiopia's growing infrastructure needs.
+                    </p>
+                    <a href="#" class="btn btn-sm btn-outline-primary mt-2">Explore Infrastructure</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="sec-21" class="project-timeline-module py-5 bg-white">
+    <div class="container">
+        <h1 class="text-center mb-4">Our 5-Step Project Process</h1>
+        <p class="lead text-center mb-5">
+            We guide you through every stage, ensuring clarity, control, and peace of mind.
+        </p>
+        <ul class="timeline">
+            <li class="timeline-item wow animated fadeInLeft" data-wow-delay="0.1s">
+                <div class="timeline-badge bg-primary"><i class="fas fa-handshake"></i></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="timeline-title text-primary">1. Initial Consultation & Vision</h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p>We meet to discuss your goals, budget, timelines, and technical requirements. This defines the project scope.</p>
+                    </div>
+                </div>
+            </li>
+            <li class="timeline-item wow animated fadeInRight" data-wow-delay="0.3s">
+                <div class="timeline-badge bg-warning"><i class="fas fa-pencil-ruler"></i></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="timeline-title text-warning">2. Design, Planning & Permit</h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p>Our team develops detailed architectural plans, engineering drawings, and secures all necessary local permits and approvals.</p>
+                    </div>
+                </div>
+            </li>
+            <li class="timeline-item wow animated fadeInLeft" data-wow-delay="0.5s">
+                <div class="timeline-badge bg-info"><i class="fas fa-chart-line"></i></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="timeline-title text-info">3. Pre-Construction & Procurement</h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p>Finalizing the budget, scheduling, and procurement of all materials and equipment to ensure a smooth start.</p>
+                    </div>
+                </div>
+            </li>
+             <li class="timeline-item wow animated fadeInRight" data-wow-delay="0.7s">
+                <div class="timeline-badge bg-danger"><i class="fas fa-hard-hat"></i></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="timeline-title text-danger">4. Construction & Quality Control</h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p>Execution of the build with continuous on-site supervision, safety checks, and strict adherence to quality standards.</p>
+                    </div>
+                </div>
+            </li>
+            <li class="timeline-item wow animated fadeInLeft" data-wow-delay="0.9s">
+                <div class="timeline-badge bg-success"><i class="fas fa-home"></i></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="timeline-title text-success">5. Final Handover & Support</h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p>Final inspections, project handover, client training on systems, and providing comprehensive warranty and maintenance support.</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="text-center mt-5">
+            <a href="#sec-5" class="btn btn-primary btn-lg">Start Your Project Journey Today</a>
+        </div>
+    </div>
+</section>
+
+<section id="sec-26" class="featured-project-module py-5">
+    <div class="container">
+        <h1 class="text-center mb-4">Featured Case Study</h1>
+        <p class="lead text-center mb-5">
+            A closer look at a recent high-impact project that showcases our full capabilities.
+        </p>
+
+        <div class="project-case-study wow animated fadeInUp">
+            <div class="image-side" style="background-image: url('Images/gallery3.jpg');">
+            </div>
+            <div class="text-content">
+                <span class="badge bg-primary mb-2">Commercial Development</span>
+                <h2 class="fw-bold text-dark">Gulele Mixed-Use Complex</h2>
+                <p class="lead">A landmark project in Addis Ababa, Will start on 2028, setting a new benchmark for urban efficiency and modern design.</p>
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <p class="mb-1 fw-bold"><i class="fas fa-calendar-check text-primary me-2"></i> Duration:</p>
+                        <p>18 Months</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-1 fw-bold"><i class="fas fa-ruler-combined text-primary me-2"></i> Size:</p>
+                        <p>25,000 sq. meters</p>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <p class="mb-1 fw-bold">Key Challenges:</p>
+                        <p class="small">Integrating seismic resilience features and managing logistics in a high-traffic urban zone, both resolved successfully through advanced engineering planning.</p>
+                    </div>
+                </div>
+                <a href="#projectDetailsModal" data-bs-toggle="modal" class="btn btn-primary btn-lg">View Full Case Study</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="sec-4">
+    <div class="container">
+        <h1>Our Projects</h1>
+        <p>
+            Explore a selection of our completed works showcasing excellence, innovation, 
+            and precision. (Click on any image for details)
+        </p>
+
+        <div class="filter">
+            <a href="#" class="active">All</a>
+            <a href="#">Buildings</a>
+            <a href="#">Interior Design</a>
+            <a href="#">Insulation</a>
+            <a href="#">Plumbing</a>
+        </div>
+        <div class="cont">
+            <img class="wow animated fadeIn slow project-trigger" src="Images/gallery1.jpg" alt="Project sample">
+            <aside>
+                <img src="Images/gallery3.jpg" class="wow animated flipInX delay-1s project-trigger" alt="">
+                <img src="Images/gallery2.jpg" class="wow animated flipInX delay-1s slower project-trigger" alt="">
+                <img src="Images/gallery4.jpg" class="wow animated flipInX delay-2s project-trigger" alt="">
+                <img src="Images/gallery5.jpg" class="wow animated flipInX delay-2s slower project-trigger" alt="">
+            </aside>
+        </div>
+    </div>
+</section>
+
+<section id="sec-17" class="equipment-module py-5 bg-light">
+    <div class="container text-center">
+        <h1>Advanced Technology & Equipment</h1>
+        <p class="lead mb-5">
+            We utilize modern construction technology to ensure precision, speed, and safety on all sites.
+        </p>
+
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0 p-4">
+                    <i class="fas fa-map-marked-alt fa-3x text-secondary mb-3"></i>
+                    <h4 class="fw-bold">GPS Surveying Drones |Coming Soon ...</h4>
+                    <p>High-resolution aerial mapping for accurate site preparation and progress monitoring.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0 p-4">
+                    <i class="fas fa-helmet-safety fa-3x text-secondary mb-3"></i>
+                    <h4 class="fw-bold">BIM (Building Information Modeling)</h4>
+                    <p>3D modeling for clash detection, optimized design, and cost efficiency.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0 p-4">
+                    <i class="fas fa-truck-monster fa-3x text-secondary mb-3"></i>
+                    <h4 class="fw-bold">Modern Fleet</h4>
+                    <p>High-capacity cranes, excavators, and dump trucks ensuring powerful on-site capability.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="sec-8" class="team-module py-5">
+    <div class="container">
+        <h1>Meet Our Experts</h1>
+        <p class="lead text-center mb-5">
+            Our dedicated team of certified engineers and experienced professionals drives 
+            innovation and quality on every project.
+        </p>
+
+        <div class="row team-cards justify-content-center">
+            <div class="col-md-4 col-sm-6 mb-4 wow animated fadeInUp" data-wow-delay="0.1s">
+                <div class="card border-0 text-center shadow-sm h-100">
+                    <img src="Images/dale.png" class="card-img-top mx-auto rounded-circle mt-3" alt="ENG. DALE MELAKU">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">ENG. DALE MELAKU</h5>
+                        <p class="text-muted">GENERAL MANAGER</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-sm btn-outline-secondary"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="btn btn-sm btn-outline-secondary"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 mb-4 wow animated fadeInUp" data-wow-delay="0.3s">
+                <div class="card border-0 text-center shadow-sm h-100">
+                    <img src="Images/Construction Team.jpg" class="card-img-top mx-auto rounded-circle mt-3" alt="Aster Mengistu">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Moti Elias</h5>
+                        <p class="text-muted">Lead Civil Engineer</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-sm btn-outline-secondary"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="btn btn-sm btn-outline-secondary"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 mb-4 wow animated fadeInUp" data-wow-delay="0.5s">
+                <div class="card border-0 text-center shadow-sm h-100">
+                    <img src="Images/card2.jpg" class="card-img-top mx-auto rounded-circle mt-3" alt="Moti Tola">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Moti Tola</h5>
+                        <p class="text-muted">Project Manager</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-sm btn-outline-secondary"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="btn btn-sm btn-outline-secondary"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="sec-14" class="careers-module py-5 bg-light">
+    <div class="container">
+        <h1 class="text-center mb-4">Join Our Team</h1>
+        <p class="lead text-center mb-5">
+            We're looking for passionate and skilled professionals to build the future with us.
+        </p>
+
+        <div class="row job-listings">
+            <div class="col-md-6 mb-4 wow animated fadeInLeft" data-wow-delay="0.1s">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body">
+                        <h4 class="card-title fw-bold">Senior Quantity Surveyor</h4>
+                        <p class="text-muted mb-2">Full-Time | Addis Ababa</p>
+                        <p class="card-text">Responsible for managing all costs relating to building and civil engineering projects, from initial calculations to final figures.</p>
+                        <ul class="list-unstyled small">
+                            <li><i class="fas fa-check-circle text-primary me-2"></i> 5+ years experience required</li>
+                            <li><i class="fas fa-check-circle text-primary me-2"></i> Degree in Quantity Surveying</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline-primary mt-2">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4 wow animated fadeInRight" data-wow-delay="0.3s">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body">
+                        <h4 class="card-title fw-bold">AutoCAD/BIM Technician</h4>
+                        <p class="text-muted mb-2">Full-Time | Bishoftu Site</p>
+                        <p class="card-text">Assist the design team by preparing accurate 2D CAD drawings and 3D BIM models for various infrastructure projects.</p>
+                        <ul class="list-unstyled small">
+                            <li><i class="fas fa-check-circle text-primary me-2"></i> Proficient in Revit and AutoCAD</li>
+                            <li><i class="fas fa-check-circle text-primary me-2"></i> Diploma or equivalent experience</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline-primary mt-2">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="text-center mt-4 pt-3">
+             <a href="#" class="btn btn-primary btn-lg">View All Openings</a>
+        </div>
+    </div>
+</section>
+<section id="sec-11" class="faq-module py-5 bg-light">
+    <div class="container">
+        <h1 class="text-center mb-4">Frequently Asked Questions</h1>
+        <p class="text-center mb-5">
+            Find quick answers to the most common questions about our construction services, process, and company.
+        </p>
+
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item shadow-sm mb-3">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        What is your process for starting a new construction project?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Our process begins with a **free consultation** to understand your vision and project requirements. This is followed by a site assessment, detailed proposal, contract signing, and then the planning and execution phase. We maintain constant communication throughout the project lifecycle.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item shadow-sm mb-3">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Are you licensed and insured for work in Ethiopia?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes, DB General Construction PLC is fully licensed and registered to operate across all regions of Ethiopia. We carry comprehensive liability insurance and workers' compensation coverage for all projects, ensuring peace of mind for our clients.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item shadow-sm mb-3">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        What types of projects do you specialize in?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        We specialize in a diverse range of projects including **commercial buildings**, **residential developments**, **renovations**, and complex **civil engineering infrastructure**. Our expertise covers everything from modern architecture to sustainable construction.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="sec-12" class="cta-strip py-5 text-white" style="background-color: #007bff; background-image: url('Images/bg2.jpg'); background-size: cover;">
+    <div class="container text-center">
+        <div class="row align-items-center">
+            <div class="col-md-8 text-md-start">
+                <h2 class="display-6 fw-bold mb-2">Ready to Start Your Next Project?</h2>
+                <p class="lead">Download our company profile for more details or call us now for a free estimate.</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <a href="#" class="btn btn-warning btn-lg fw-bold me-2">Download Profile</a>
+                <a href="tel:+25191159012" class="btn btn-outline-light btn-lg">Call Now</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- NEW Resources & Tools Section -->
+<section id="sec-resources" class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="mb-3">Construction Resources & Tools</h1>
+            <p class="lead">Access helpful resources to plan and manage your construction project</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6 wow animated fadeInUp" data-wow-delay="0.1s">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <i class="fas fa-file-pdf fa-3x text-danger mb-3"></i>
+                    <h5 class="fw-bold">Company Profile</h5>
+                    <p class="small text-muted">Download our comprehensive company brochure</p>
+                    <a href="#" class="btn btn-sm btn-outline-danger">Download PDF</a>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 wow animated fadeInUp" data-wow-delay="0.2s">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <i class="fas fa-book fa-3x text-primary mb-3"></i>
+                    <h5 class="fw-bold">Project Guide</h5>
+                    <p class="small text-muted">Step-by-step construction planning guide</p>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View Guide</a>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 wow animated fadeInUp" data-wow-delay="0.3s">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <i class="fas fa-clipboard-check fa-3x text-success mb-3"></i>
+                    <h5 class="fw-bold">Safety Standards</h5>
+                    <p class="small text-muted">Our safety protocols and certifications</p>
+                    <a href="#" class="btn btn-sm btn-outline-success">Learn More</a>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 wow animated fadeInUp" data-wow-delay="0.4s">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <i class="fas fa-images fa-3x text-warning mb-3"></i>
+                    <h5 class="fw-bold">Project Gallery</h5>
+                    <p class="small text-muted">Browse our complete portfolio</p>
+                    <a href="#sec-4" class="btn btn-sm btn-outline-warning">View Gallery</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ADVANCED: Before/After Project Showcase -->
+<section id="sec-before-after" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="mb-3">See The Transformation</h1>
+            <p class="lead">Drag the slider to see our project transformations</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="before-after-slider" id="slider1">
+                    <img src="Images/bg2.jpg" alt="Before" class="before-image-full">
+                    <div class="after-image">
+                        <img src="Images/gallery1.jpg" alt="After">
+                    </div>
+                    <div class="slider-handle" id="handle1"></div>
+                </div>
+                <div class="text-center mt-3">
+                    <h5>Commercial Building Renovation</h5>
+                    <p class="text-muted">Addis Ababa - 2024</p>
+                </div>
+            </div>
+            
+            <div class="col-md-6 mb-4">
+                <div class="before-after-slider" id="slider2">
+                    <img src="Images/bg3.jpg" alt="Before" class="before-image-full">
+                    <div class="after-image">
+                        <img src="Images/gallery3.jpg" alt="After">
+                    </div>
+                    <div class="slider-handle" id="handle2"></div>
+                </div>
+                <div class="text-center mt-3">
+                    <h5>Residential Complex</h5>
+                    <p class="text-muted">Adama - 2023</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ADVANCED: Video Testimonials -->
+<section id="sec-video-testimonials" class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="mb-3">Client Success Stories</h1>
+            <p class="lead">Hear directly from our satisfied clients</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4 wow animated zoomIn" data-wow-delay="0.1s">
+                <div class="video-testimonial" onclick="playVideo('video1')">
+                    <img src="Images/card1.jpg" alt="Client Testimonial" class="img-fluid">
+                    <div class="video-play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="position-absolute bottom-0 start-0 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+                        <h6 class="mb-0">Yohannes G.</h6>
+                        <small>CEO, Tech Solutions</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4 wow animated zoomIn" data-wow-delay="0.2s">
+                <div class="video-testimonial" onclick="playVideo('video2')">
+                    <img src="Images/card2.jpg" alt="Client Testimonial" class="img-fluid">
+                    <div class="video-play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="position-absolute bottom-0 start-0 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+                        <h6 class="mb-0">Sara M.</h6>
+                        <small>Property Developer</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4 wow animated zoomIn" data-wow-delay="0.3s">
+                <div class="video-testimonial" onclick="playVideo('video3')">
+                    <img src="Images/card3.jpg" alt="Client Testimonial" class="img-fluid">
+                    <div class="video-play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="position-absolute bottom-0 start-0 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+                        <h6 class="mb-0">Ahmed K.</h6>
+                        <small>Hotel Owner</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ADVANCED: Live Project Counter -->
+<section id="sec-live-counter" class="py-5" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);">
+    <div class="container text-center text-white">
+        <h1 class="mb-4">Projects Completed This Year</h1>
+        <div class="live-counter" id="liveProjectCounter">0</div>
+        <p class="lead mt-3">And counting...</p>
+        <div class="row mt-5">
+            <div class="col-md-4 mb-3">
+                <h3 class="live-counter" id="ongoingProjects">0</h3>
+                <p>Ongoing Projects</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h3 class="live-counter" id="happyClients">0</h3>
+                <p>Happy Clients</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h3 class="live-counter" id="teamMembers">0</h3>
+                <p>Team Members</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ADVANCED: Interactive Cost Estimator Preview -->
+<section id="sec-quick-estimate" class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4">
+                <h1 class="mb-4">Get Instant Cost Estimate</h1>
+                <p class="lead mb-4">Answer a few quick questions and get an immediate project cost estimate</p>
+                
+                <div class="card border-0 shadow-lg card-3d">
+                    <div class="card-body p-4">
+                        <h5 class="mb-3">Quick Estimate Calculator</h5>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Project Type</label>
+                            <select class="form-select" id="quickProjectType">
+                                <option value="residential">Residential</option>
+                                <option value="commercial">Commercial</option>
+                                <option value="industrial">Industrial</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Approximate Size (sqm)</label>
+                            <input type="number" class="form-control" id="quickSize" placeholder="e.g., 150" min="1">
+                        </div>
+                        <button class="btn btn-primary w-100 btn-lg" onclick="calculateQuickEstimate()">
+                            <i class="fas fa-calculator me-2"></i>Calculate Estimate
+                        </button>
+                        <div id="quickResult" class="mt-3 p-3 bg-light rounded" style="display: none;">
+                            <h6 class="text-primary">Estimated Cost Range:</h6>
+                            <h4 class="mb-0" id="quickEstimateAmount"></h4>
+                            <a href="cost-calculator.html" class="btn btn-sm btn-outline-primary mt-2">Get Detailed Estimate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <img src="Images/dale.png" alt="Cost Calculator" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEW: AI Chatbot Assistant Section -->
+<section id="sec-ai-assistant" class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-white mb-4">
+                <h1 class="mb-4">24/7 AI Construction Assistant</h1>
+                <p class="lead mb-4">Get instant answers to your construction questions, project estimates, and expert advice powered by AI</p>
+                <ul class="list-unstyled">
+                    <li class="mb-3"><i class="fas fa-check-circle me-2"></i>Instant project cost estimates</li>
+                    <li class="mb-3"><i class="fas fa-check-circle me-2"></i>Material recommendations</li>
+                    <li class="mb-3"><i class="fas fa-check-circle me-2"></i>Timeline planning assistance</li>
+                    <li class="mb-3"><i class="fas fa-check-circle me-2"></i>Building code information</li>
+                </ul>
+                <button class="btn btn-warning btn-lg" onclick="openChatbot()">
+                    <i class="fas fa-robot me-2"></i>Start Chat Now
+                </button>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-0">
+                        <div class="bg-primary text-white p-3 d-flex align-items-center">
+                            <i class="fas fa-robot fa-2x me-3"></i>
+                            <div>
+                                <h5 class="mb-0">Construction AI Assistant</h5>
+                                <small>Online • Responds instantly</small>
+                            </div>
+                        </div>
+                        <div class="p-4" style="height: 300px; overflow-y: auto; background: #f8f9fa;">
+                            <div class="mb-3">
+                                <div class="d-inline-block bg-white p-3 rounded shadow-sm">
+                                    <p class="mb-0">Hello! I'm your AI construction assistant. How can I help you today?</p>
+                                </div>
+                            </div>
+                            <div class="mb-3 text-end">
+                                <div class="d-inline-block bg-primary text-white p-3 rounded shadow-sm">
+                                    <p class="mb-0">What's the average cost per sqm for residential construction?</p>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-inline-block bg-white p-3 rounded shadow-sm">
+                                    <p class="mb-0">In Ethiopia, residential construction typically costs 8,000-15,000 ETB per sqm depending on materials and finishes. Would you like a detailed breakdown?</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-3 border-top">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Type your question...">
+                                <button class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEW: 3D Building Visualizer -->
+<section id="sec-3d-visualizer" class="py-5 bg-dark text-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="mb-3">Interactive 3D Project Visualizer</h1>
+            <p class="lead">Explore our projects in stunning 3D - Rotate, zoom, and inspect every detail</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 mb-4">
+                <div class="card border-0 shadow-lg" style="height: 500px; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); border-radius: 15px; position: relative; overflow: hidden;">
+                    <div class="position-absolute top-50 start-50 translate-middle text-center">
+                        <i class="fas fa-cube fa-5x mb-3 floating" style="color: #ffc107;"></i>
+                        <h4>3D Model Viewer</h4>
+                        <p class="text-white-50">Interactive 3D visualization coming soon</p>
+                        <button class="btn btn-warning mt-3">
+                            <i class="fas fa-vr-cardboard me-2"></i>Launch VR Tour
+                        </button>
+                    </div>
+                    <div class="position-absolute bottom-0 start-0 p-3">
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-light"><i class="fas fa-undo"></i> Rotate</button>
+                            <button class="btn btn-sm btn-outline-light"><i class="fas fa-search-plus"></i> Zoom</button>
+                            <button class="btn btn-sm btn-outline-light"><i class="fas fa-expand"></i> Fullscreen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <h5 class="mb-3">Featured 3D Models</h5>
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-secondary">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-building fa-2x text-warning me-3"></i>
+                            <div>
+                                <h6 class="mb-1">Commercial Tower</h6>
+                                <small class="text-white-50">30 floors • Addis Ababa</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-secondary">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-home fa-2x text-info me-3"></i>
+                            <div>
+                                <h6 class="mb-1">Luxury Villa</h6>
+                                <small class="text-white-50">450 sqm • Adama City</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-secondary">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-industry fa-2x text-danger me-3"></i>
+                            <div>
+                                <h6 class="mb-1">Industrial Complex</h6>
+                                <small class="text-white-50">50,000 sqm • Hawassa</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="mt-4 p-3 bg-secondary rounded">
+                    <h6><i class="fas fa-info-circle me-2"></i>Did you know?</h6>
+                    <p class="small mb-0">Our 3D visualization helps clients make better decisions and reduces design changes by 40%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEW: Real-time Material Cost Tracker -->
+<section id="sec-material-tracker" class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="mb-3">Live Material Cost Tracker</h1>
+            <p class="lead">Real-time construction material prices in Ethiopia</p>
+            <small class="text-muted">Last updated: <span id="lastUpdate">Today, 10:30 AM</span></small>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-3 col-sm-6 mb-4 wow animated fadeInUp" data-wow-delay="0.1s">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-cubes fa-3x text-secondary mb-3"></i>
+                        <h5 class="fw-bold">Cement</h5>
+                        <h3 class="text-primary mb-2">1350-2000 ETB</h3>
+                        <p class="text-muted mb-0">per quintal</p>
+                        <div class="mt-2">
+                            <span class="badge bg-success"><i class="fas fa-arrow-down"></i> 2% this week</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 mb-4 wow animated fadeInUp" data-wow-delay="0.2s">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-hammer fa-3x text-warning mb-3"></i>
+                        <h5 class="fw-bold">Steel Rebar</h5>
+                        <h3 class="text-primary mb-2">1580-3700 ETB</h3>
+                        <p class="text-muted mb-0">per Berga</p>
+                        <div class="mt-2">
+                            <span class="badge bg-danger"><i class="fas fa-arrow-up"></i> 5% this week</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 mb-4 wow animated fadeInUp" data-wow-delay="0.3s">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-layer-group fa-3x text-danger mb-3"></i>
+                        <h5 class="fw-bold">Bricks</h5>
+                        <h3 class="text-primary mb-2">6.50 ETB</h3>
+                        <p class="text-muted mb-0">per piece</p>
+                        <div class="mt-2">
+                            <span class="badge bg-secondary"><i class="fas fa-minus"></i> No change</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 mb-4 wow animated fadeInUp" data-wow-delay="0.4s">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-paint-roller fa-3x text-info mb-3"></i>
+                        <h5 class="fw-bold">Paint</h5>
+                        <h3 class="text-primary mb-2">850-1700 ETB</h3>
+                        <p class="text-muted mb-0">per gallon</p>
+                        <div class="mt-2">
+                            <span class="badge bg-success"><i class="fas fa-arrow-down"></i> 3% this week</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <button class="btn btn-primary btn-lg">
+                <i class="fas fa-chart-line me-2"></i>View Full Price List & Trends
+            </button>
+            <button class="btn btn-outline-primary btn-lg ms-2">
+                <i class="fas fa-bell me-2"></i>Set Price Alerts
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- NEW: Project Comparison Tool -->
+<section id="sec-project-comparison" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="mb-3">Compare Project Types</h1>
+            <p class="lead">See side-by-side comparisons of different construction options</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4 wow animated zoomIn" data-wow-delay="0.1s">
+                <div class="card border-0 shadow-lg h-100 hover-lift">
+                    <div class="card-header bg-primary text-white text-center py-3">
+                        <h4 class="mb-0">Residential</h4>
+                        <p class="mb-0 small">Single Family Home</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-3">
+                            <h2 class="text-primary">8,000-12,000 ETB</h2>
+                            <p class="text-muted">per sqm</p>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Standard finishes</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>6-12 months timeline</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Basic amenities</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Flexible design</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Lower complexity</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer bg-white border-0 text-center">
+                        <button class="btn btn-outline-primary w-100">Select & Calculate</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4 wow animated zoomIn" data-wow-delay="0.2s">
+                <div class="card border-0 shadow-lg h-100 hover-lift" style="transform: scale(1.05); border: 3px solid #ffc107 !important;">
+                    <div class="card-header bg-warning text-dark text-center py-3">
+                        <h4 class="mb-0">Commercial</h4>
+                        <p class="mb-0 small">Office Building</p>
+                        <span class="badge bg-danger">Most Popular</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-3">
+                            <h2 class="text-warning">12,000-18,000 ETB</h2>
+                            <p class="text-muted">per sqm</p>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Premium finishes</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>12-24 months timeline</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Advanced systems</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Modern design</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>High-rise capable</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer bg-white border-0 text-center">
+                        <button class="btn btn-warning w-100">Select & Calculate</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4 wow animated zoomIn" data-wow-delay="0.3s">
+                <div class="card border-0 shadow-lg h-100 hover-lift">
+                    <div class="card-header bg-danger text-white text-center py-3">
+                        <h4 class="mb-0">Industrial</h4>
+                        <p class="mb-0 small">Factory/Warehouse</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-3">
+                            <h2 class="text-danger">6,000-10,000 ETB</h2>
+                            <p class="text-muted">per sqm</p>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Functional design</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>8-18 months timeline</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Heavy-duty structure</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Large open spaces</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Utility-focused</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer bg-white border-0 text-center">
+                        <button class="btn btn-outline-danger w-100">Select & Calculate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEW: Safety Dashboard -->
+<section id="sec-safety-dashboard" class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="mb-3">Live Safety Dashboard</h1>
+            <p class="lead">Real-time safety metrics across all our active projects</p>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card border-0 shadow-sm text-center p-4 bg-success text-white">
+                    <i class="fas fa-shield-alt fa-3x mb-3"></i>
+                    <h2 class="mb-0">0</h2>
+                    <p class="mb-0">Incidents This Month</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card border-0 shadow-sm text-center p-4 bg-primary text-white">
+                    <i class="fas fa-hard-hat fa-3x mb-3"></i>
+                    <h2 class="mb-0">1,247</h2>
+                    <p class="mb-0">Safety Hours Logged</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card border-0 shadow-sm text-center p-4 bg-warning text-dark">
+                    <i class="fas fa-clipboard-check fa-3x mb-3"></i>
+                    <h2 class="mb-0">98%</h2>
+                    <p class="mb-0">Safety Compliance</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card border-0 shadow-sm text-center p-4 bg-info text-white">
+                    <i class="fas fa-users fa-3x mb-3"></i>
+                    <h2 class="mb-0">150</h2>
+                    <p class="mb-0">Trained Workers</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card border-0 shadow-lg">
+            <div class="card-body p-4">
+                <h4 class="mb-4"><i class="fas fa-chart-bar me-2 text-primary"></i>Safety Performance Trend</h4>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div style="height: 250px; background: linear-gradient(to top, #e3f2fd 0%, #ffffff 100%); border-radius: 10px; position: relative; padding: 20px;">
+                            <canvas id="safetyChart" style="width: 100%; height: 100%;"></canvas>
+                            <div class="position-absolute top-50 start-50 translate-middle text-center">
+                                <i class="fas fa-chart-line fa-4x text-primary opacity-25"></i>
+                                <p class="text-muted mt-2">Safety metrics visualization</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h6 class="fw-bold mb-3">Recent Safety Achievements</h6>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-trophy text-warning fa-2x me-3"></i>
+                                <div>
+                                    <strong>500 Days</strong>
+                                    <p class="mb-0 small text-muted">Zero Incident Streak</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-certificate text-success fa-2x me-3"></i>
+                                <div>
+                                    <strong>ISO 45001</strong>
+                                    <p class="mb-0 small text-muted">Safety Certified</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-award text-primary fa-2x me-3"></i>
+                                <div>
+                                    <strong>Best Safety</strong>
+                                    <p class="mb-0 small text-muted">2024 Award Winner</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEW: Equipment Rental Calculator -->
+<section id="sec-equipment-rental" class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4">
+                <h1 class="mb-4">Equipment Rental Calculator</h1>
+                <p class="lead mb-4">Calculate the cost of renting construction equipment for your project</p>
+                
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Equipment Type</label>
+                            <select class="form-select" id="equipmentType" onchange="updateEquipmentCost()">
+                                <option value="excavator">Excavator (20 ton)</option>
+                                <option value="crane">Tower Crane</option>
+                                <option value="mixer">Concrete Mixer</option>
+                                <option value="loader">Wheel Loader</option>
+                                <option value="bulldozer">Bulldozer</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Rental Duration (days)</label>
+                            <input type="number" class="form-control" id="rentalDays" value="7" min="1" onchange="updateEquipmentCost()">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Include Operator?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="includeOperator" checked onchange="updateEquipmentCost()">
+                                <label class="form-check-label" for="includeOperator">
+                                    Yes, include certified operator
+                                </label>
+                            </div>
+                        </div>
+                        <div class="alert alert-info">
+                            <h5 class="mb-2">Estimated Cost:</h5>
+                            <h3 class="text-primary mb-0" id="equipmentCost">35,000 ETB</h3>
+                            <small class="text-muted">Includes fuel and maintenance</small>
+                        </div>
+                        <button class="btn btn-primary w-100 btn-lg">
+                            <i class="fas fa-calendar-check me-2"></i>Request Equipment
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <h5 class="mb-3">Available Equipment Fleet</h5>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <div class="card border-0 shadow-sm text-center p-3">
+                            <i class="fas fa-truck-monster fa-3x text-warning mb-2"></i>
+                            <h6>Excavators</h6>
+                            <span class="badge bg-success">5 Available</span>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="card border-0 shadow-sm text-center p-3">
+                            <i class="fas fa-truck-pickup fa-3x text-primary mb-2"></i>
+                            <h6>Cranes</h6>
+                            <span class="badge bg-success">3 Available</span>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="card border-0 shadow-sm text-center p-3">
+                            <i class="fas fa-blender fa-3x text-danger mb-2"></i>
+                            <h6>Mixers</h6>
+                            <span class="badge bg-success">8 Available</span>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="card border-0 shadow-sm text-center p-3">
+                            <i class="fas fa-tractor fa-3x text-success mb-2"></i>
+                            <h6>Loaders</h6>
+                            <span class="badge bg-warning">2 Available</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-warning mt-3">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Pro Tip:</strong> Book equipment 2 weeks in advance for guaranteed availability
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="sec-13" class="blog-preview py-5">
+    <div class="container">
+        <h1 class="text-center mb-4">Latest Insights & News</h1>
+        <p class="text-center mb-5">
+            Stay informed on construction trends, materials, and company updates.
+        </p>
+
+        <div class="row">
+            <div class="col-md-4 mb-4 wow animated fadeInUp" data-wow-delay="0.1s">
+                <div class="card h-100 shadow-sm border-0">
+                    <img src="Images/gallery1.jpg" class="card-img-top" alt="New Construction Materials in 2025">
+                    <div class="card-body">
+                        <small class="text-muted"><i class="fas fa-calendar-alt me-1"></i> 20 August 2025</small>
+                        <h5 class="card-title mt-2 fw-bold">New Construction Materials in 2025</h5>
+                        <p class="card-text">A look at the innovative and sustainable materials that are set to redefine the industry this year.</p>
+                        <a href="#" class="text-primary fw-bold text-decoration-none">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4 wow animated fadeInUp" data-wow-delay="0.3s">
+                <div class="card h-100 shadow-sm border-0">
+                    <img src="Images/gallery2.jpg" class="card-img-top" alt="Improving Safety Culture on Sites">
+                    <div class="card-body">
+                        <small class="text-muted"><i class="fas fa-calendar-alt me-1"></i> 20 August 2025</small>
+                        <h5 class="card-title mt-2 fw-bold">Improving Safety Culture on Sites</h5>
+                        <p class="card-text">Our comprehensive guide to enhancing worker safety and achieving a zero-incident culture.</p>
+                        <a href="#" class="text-primary fw-bold text-decoration-none">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4 wow animated fadeInUp" data-wow-delay="0.5s">
+                <div class="card h-100 shadow-sm border-0">
+                    <img src="Images/gallery3.jpg" class="card-img-top" alt="Sustainable Architecture Trends">
+                    <div class="card-body">
+                        <small class="text-muted"><i class="fas fa-calendar-alt me-1"></i> 20 August 2025</small>
+                        <h5 class="card-title mt-2 fw-bold">Sustainable Architecture Trends</h5>
+                        <p class="card-text">Exploring green building techniques and design philosophies for an eco-friendly future.</p>
+                        <a href="#" class="text-primary fw-bold text-decoration-none">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+             <a href="#" class="btn btn-outline-primary btn-lg">View All Articles</a>
+        </div>
+    </div>
+</section>
+<section id="sec-5" class="py-5">
+    <div class="container">
+        <h1>Customer Reviews</h1>
+        <p>
+            Hear from clients who have trusted us with their construction projects.
+        </p>
+
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                
+                <article class="carousel-item active quoteblock">
+                    <div class="quotetxt arrow">
+                        <p><img src="Images/blockquote2.png" alt="Quote"></p>
+                        <p>
+                            “Outstanding work! The team delivered our project on time and with 
+                            incredible professionalism. Highly recommended.”
+                        </p>
+                    </div>
+                    <figure>
+                        <img src="Images/cust1.png" alt="Customer photo" class="customer">
+                        <figcaption>Bontu Asefa, CEO of InnovaTech</figcaption>
+                    </figure>
+                </article>
+
+                <article class="carousel-item quoteblock">
+                    <div class="quotetxt arrow">
+                        <p><img src="Images/blockquote1.png" alt="Quote"></p>
+                        <p>
+                        “Their attention to detail and commitment to quality impressed us 
+                        throughout the entire project. The renovation was seamless.”
+                        </p>
+                    </div>
+                    <figure>
+                        <img src="Images/Construction Team.jpg" alt="Customer photo" class="customer">
+                        <figcaption>Eng. Moti Elias, Residential Client</figcaption>
+                    </figure>
+                </article>
+
+                <article class="carousel-item quoteblock">
+                    <div class="quotetxt arrow">
+                        <p><img src="Images/blockquote2.png" alt="Quote"></p>
+                        <p>
+                        “Professional, efficient, and easy to work with. DB General 
+                        Construction exceeded our expectations on the new headquarters design.”
+                        </p>
+                    </div>
+                    <figure>
+                        <img src="Images/img1.png" alt="Customer photo" class="customer">
+                        <figcaption>Yohannes Gezahegn, Development Director</figcaption>
+                    </figure>
+                </article>
+
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        
+    </div>
+
+    <div class="contactUs bg-light p-5 mt-5">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">Request a Consultation</h2>
+            <div class="row">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <form id="form-modern" action="/" method="post" class="p-4 border rounded shadow-lg bg-white">
+                        <h4 class="mb-4">Send Us a Message</h4>
+                        <div class="mb-3">
+                            <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="tel" name="phone" class="form-control" placeholder="Your Phone (Optional)">
+                        </div>
+                         <div class="mb-3">
+                            <select name="service" class="form-control">
+                                <option value="">Interested Service...</option>
+                                <option value="Management">Construction Management</option>
+                                <option value="Renovation">Renovation</option>
+                                <option value="Architecture">Architecture Design</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <textarea name="message" class="form-control" rows="4" placeholder="Brief Description of Your Project" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                        <p id="msg-modern" class="mt-3 text-center"></p>
+                    </form>
+                </div>
+
+                <div class="col-md-6">
+                    <h4 class="mb-3">Find Our Location</h4>
+                    <iframe 
+                        src="https://maps.google.com/maps?q=Sarbet,%20Addis%20Ababa,%20Ethiopia&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+                        width="100%" 
+                        height="450" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="sec-6" class="pt-5 pb-4">
+    <div class="container">
+
+        <div class="about">
+            <h1>About Company</h1>
+            <h2>DB GENERAL CONSTRUCTION PLC</h2>
+            <p>
+                We specialize in delivering professional construction solutions, from 
+                design to execution, ensuring safety, innovation, and durability.
+            </p>
+
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-google-plus-g"></i></a>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+
+        <div class="links">
+            <h1>Explore Links</h1>
+            <a href="#sec-3">Our Services</a>
+            <a href="#sec-8">Meet Our Team</a>
+            <a href="cost-calculator.html"><i class="fas fa-calculator me-1"></i>Cost Calculator</a>
+            <a href="client-login.html"><i class="fas fa-user-lock me-1"></i>Client Portal</a>
+            <a href="#sec-11">FAQ</a>
+            <a href="#sec-5">Contact Us</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+        </div>
+
+        <div class="posts">
+            <h1>Latest Posts</h1>
+            <a href="#"><span>20<br>AUG</span>New Construction Materials in 2025</a>
+            <a href="#"><span>20<br>AUG</span>Improving Safety Culture on Sites</a>
+            <a href="#"><span>20<br>AUG</span>Sustainable Architecture Trends</a>
+            <a href="#"><span>20<br>AUG</span>Why Quality Control Matters</a>
+            <a href="#"><span>20<br>AUG</span>Modern Building Technologies</a>
+        </div>
+
+        <div class="contact">
+            <h1>Contact Us</h1>
+            <p><i class="fas fa-map-marker-alt"></i> Sarbet, Addis Ababa, Ethiopia</p>
+            <p><i class="fas fa-envelope"></i> support@dbgeneralconstruction.com</p>
+            <p><i class="fas fa-phone"></i> +251-9115-9012</p>
+        </div>
+
+    </div>
+</section>
+
+<section id="sec-7" class="footer-advanced">
+    <div class="footer-gradient-bg">
+        <div class="container">
+            <!-- Footer Main Content -->
+            <div class="row py-5">
+                <!-- Company Info -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h3 class="footer-brand mb-3">
+                        <i class="fas fa-hard-hat me-2"></i>
+                        DB GENERAL CONSTRUCTION
+                    </h3>
+                    <p class="footer-description">
+                        Building dreams into reality with excellence, innovation, and dedication. Your trusted partner in construction.
+                    </p>
+                    <div class="footer-social-links mt-4">
+                        <a href="#" class="social-icon" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-icon" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon" title="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="footer-heading mb-3">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="#sec-0"><i class="fas fa-angle-right me-2"></i>Home</a></li>
+                        <li><a href="#sec-1"><i class="fas fa-angle-right me-2"></i>About Us</a></li>
+                        <li><a href="#sec-2"><i class="fas fa-angle-right me-2"></i>Services</a></li>
+                        <li><a href="#sec-3"><i class="fas fa-angle-right me-2"></i>Projects</a></li>
+                        <li><a href="#sec-6"><i class="fas fa-angle-right me-2"></i>Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-heading mb-3">Our Services</h5>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-hammer me-2"></i>Construction</a></li>
+                        <li><a href="#"><i class="fas fa-paint-roller me-2"></i>Renovation</a></li>
+                        <li><a href="#"><i class="fas fa-tools me-2"></i>Maintenance</a></li>
+                        <li><a href="#"><i class="fas fa-drafting-compass me-2"></i>Design</a></li>
+                        <li><a href="#"><i class="fas fa-clipboard-check me-2"></i>Consulting</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-heading mb-3">Contact Us</h5>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            <span>Addis Ababa, Ethiopia</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone me-2"></i>
+                            <span>+251 911 234 567</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope me-2"></i>
+                            <span>info@dbconstruction.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock me-2"></i>
+                            <span>Mon - Fri: 8:00 AM - 6:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <p class="footer-copyright mb-0">
+                            <i class="far fa-copyright me-1"></i>
+                            <span class="year-text">2025</span> 
+                            <span class="separator">|</span>
+                            <span class="company-name">DB General Construction PLC</span>
+                            <span class="separator">|</span>
+                            <span class="rights-text">All Rights Reserved</span>
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <p class="footer-designer mb-0">
+                            <i class="fas fa-code me-2"></i>
+                            <span class="designed-text">Designed & Developed by</span>
+                            <span class="designer-name">Hambisa Adamu</span>
+                            <span class="designer-badge">
+                                <i class="fas fa-star"></i>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decorative Elements -->
+            <div class="footer-decoration">
+                <div class="decoration-circle decoration-1"></div>
+                <div class="decoration-circle decoration-2"></div>
+                <div class="decoration-circle decoration-3"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<a href="#sec-0" id="backToTopBtn" style="position: fixed; bottom: 20px; right: 80px; display: none; background-color: #007bff; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; z-index: 1000;">
+    <i class="fas fa-arrow-up"></i>
+</a>
+
+<div id="call-back-widget" class="closed">
+    <div class="widget-button" onclick="toggleCallBackWidget()">
+        <i class="fas fa-phone"></i>
+    </div>
+    
+    <div class="card shadow-lg border-0" style="width: 250px;">
+        <div class="card-body p-3">
+            <h6 class="card-title fw-bold text-center mb-2">Request a Call Back</h6>
+            <form action="/" method="post">
+                <div class="mb-2">
+                    <input type="text" name="name" class="form-control form-control-sm" placeholder="Your Name" required>
+                </div>
+                <div class="mb-2">
+                    <input type="tel" name="phone" class="form-control form-control-sm" placeholder="Phone Number" required>
+                </div>
+                <button type="submit" class="btn btn-sm btn-danger w-100">Call Me Back ASAP</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Floating widgets replaced by FAB menu (see JavaScript section) -->
+
+<!-- Project Details Modal -->
+<div class="modal fade" id="projectDetailsModal" tabindex="-1" aria-labelledby="projectDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="projectDetailsModalLabel">Addis Ababa Commercial Tower</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="Images/gallery1.jpg" class="img-fluid mb-4" alt="Project Image">
+                <p><strong>Client:</strong> Ethio Holdings Group</p>
+                <p><strong>Location:</strong> Bole, Addis Ababa</p>
+                <p><strong>Completion Date:</strong> Q3 2024</p>
+                <p><strong>Service Provided:</strong> Full Construction Management & Architecture</p>
+                
+                <hr>
+                
+                <h3>Project Overview</h3>
+                <p>The Addis Ababa Commercial Tower is a state-of-the-art, 30-story structure featuring modern office spaces and a focus on sustainable, energy-efficient design. DB General Construction managed the entire project from initial concept to final delivery, ensuring all phases met international quality standards.</p>
+
+                <h4>Key Achievements:</h4>
+                <ul>
+                    <li>Achieved a 15% reduction in construction waste through optimized material management.</li>
+                    <li>Installed a comprehensive smart building system for energy control.</li>
+                    <li>Completed the project 3 weeks ahead of the scheduled deadline.</li>
+                </ul>
+
+                <a href="#" class="btn btn-primary mt-3">Request Similar Project Info</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="initialOfferModal" tabindex="-1" aria-labelledby="initialOfferModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content offer-modal-content">
+            <div class="modal-header offer-modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body offer-modal-body">
+                <i class="fas fa-tools fa-4x text-warning mb-3"></i>
+                <h3 class="fw-bold text-danger">SPECIAL OFFER!</h3>
+                <h4 class="fw-bold mb-3">Get a FREE Site Assessment & Initial Design Consultation</h4>
+                <p class="lead">For a limited time, secure a no-obligation, detailed assessment of your new construction or renovation project.</p>
+                <form class="p-3 bg-white rounded shadow-sm">
+                    <div class="mb-2">
+                        <input type="text" class="form-control" placeholder="Your Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control" placeholder="Your Email" required>
+                    </div>
+                    <button type="submit" class="btn btn-danger w-100 fw-bold">Claim Your FREE Consultation</button>
+                </form>
+            </div>
+            <div class="modal-footer offer-modal-footer">
+                 <button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">No, thank you</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Newsletter Subscription Section -->
+<section id="newsletter-section" class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center text-white">
+                <i class="fas fa-envelope-open-text fa-3x mb-3"></i>
+                <h2 class="fw-bold mb-3">Stay Connected with DB Construction</h2>
+                <p class="lead mb-4">Get exclusive construction insights, project updates, and special offers delivered to your inbox</p>
+                
+                <form id="footerNewsletterForm" class="newsletter-inline-form">
+                    <div class="row g-2 justify-content-center">
+                        <div class="col-md-7">
+                            <input 
+                                type="email" 
+                                class="form-control form-control-lg" 
+                                placeholder="Enter your email address" 
+                                required
+                                style="border-radius: 50px; padding: 15px 25px;"
+                            >
+                        </div>
+                        <div class="col-md-4">
+                            <button 
+                                type="submit" 
+                                class="btn btn-light btn-lg w-100 fw-bold" 
+                                style="border-radius: 50px; padding: 15px 25px;"
+                            >
+                                <i class="fas fa-paper-plane me-2"></i>Subscribe
+                            </button>
+                        </div>
+                    </div>
+                    <div class="newsletter-message" style="display: none;"></div>
+                </form>
+                
+                <p class="mt-3 mb-0" style="font-size: 0.9rem; opacity: 0.9;">
+                    <i class="fas fa-shield-alt me-2"></i>We respect your privacy. Unsubscribe anytime.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    window.onscroll = function() {
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+            backToTopBtn.style.display = "block";
+        } else {
+            backToTopBtn.style.display = "none";
+        }
+    };
+    
+    // Script for Project Modal Trigger (Existing)
+    document.addEventListener('DOMContentLoaded', function () {
+        const projectImages = document.querySelectorAll('#sec-4 .cont .project-trigger');
+        projectImages.forEach(img => {
+            img.addEventListener('click', function() {
+                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                    const projectModal = new bootstrap.Modal(document.getElementById('projectDetailsModal'));
+                    projectModal.show();
+                } else {
+                    console.error("Bootstrap JavaScript is not loaded or initialized correctly.");
+                }
+            });
+        });
+
+        // NEW Script to Trigger the Initial Offer Modal Pop-up after a delay (e.g., 5 seconds)
+        setTimeout(() => {
+            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                 const offerModal = new bootstrap.Modal(document.getElementById('initialOfferModal'));
+                 offerModal.show();
+            }
+        }, 5000); 
+    });
+
+    // Script for Floating Call Back Widget (Existing)
+    function toggleCallBackWidget() {
+        const widget = document.getElementById('call-back-widget');
+        widget.classList.toggle('closed');
+    }
+
+    // ADVANCED: Service Selector
+    let selectedService = null;
+    
+    function selectService(service) {
+        // Remove previous selection
+        document.querySelectorAll('.service-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
+        
+        // Add selection to clicked option
+        event.currentTarget.classList.add('selected');
+        selectedService = service;
+        
+        console.log('Selected service:', service);
+    }
+    
+    function proceedWithSelection() {
+        if (!selectedService) {
+            alert('Please select a service type first');
+            return;
+        }
+        
+        // Redirect to cost calculator with pre-selected service
+        window.location.href = `cost-calculator.html?type=${selectedService}`;
+    }
+
+    // ADVANCED: Animated Statistics Counter
+    function animateCounter(element) {
+        const target = parseInt(element.getAttribute('data-target'));
+        const duration = 2000; // 2 seconds
+        const increment = target / (duration / 16); // 60fps
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                element.textContent = target;
+                clearInterval(timer);
+            } else {
+                element.textContent = Math.floor(current);
+            }
+        }, 16);
+    }
+    
+    // Trigger counter animation when section is visible
+    const observerOptions = {
+        threshold: 0.5
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counters = entry.target.querySelectorAll('.stat-number');
+                counters.forEach(counter => {
+                    if (counter.textContent === '0') {
+                        animateCounter(counter);
+                    }
+                });
+                
+                // Animate skill bars
+                const skillBars = entry.target.querySelectorAll('.skill-progress');
+                skillBars.forEach(bar => {
+                    bar.classList.add('animate');
+                });
+            }
+        });
+    }, observerOptions);
+    
+    const statsSection = document.getElementById('sec-live-stats');
+    if (statsSection) {
+        observer.observe(statsSection);
+    }
+
+    // ADVANCED: Interactive Project Map
+    function showProjectInfo(location) {
+        const projectData = {
+            addis: {
+                name: 'Addis Ababa Commercial Tower',
+                type: 'Commercial',
+                year: '2024',
+                size: '30 floors',
+                description: 'State-of-the-art office complex with modern amenities'
+            },
+            bahir: {
+                name: 'Adama Residential Complex',
+                type: 'Residential',
+                year: '2023',
+                size: '150 units',
+                description: 'Modern residential complex with premium amenities'
+            },
+            hawassa: {
+                name: 'Chaka Project',
+                type: 'Mixed-Use',
+                year: '2023',
+                size: '35,000 sqm',
+                description: 'Comprehensive mixed-use development project'
+            },
+            dire: {
+                name: 'Dire Dawa Infrastructure',
+                type: 'Infrastructure',
+                year: '2022',
+                size: '15 km',
+                description: 'Road and bridge construction project'
+            },
+            mekelle: {
+                name: 'Sheger General Hospital',
+                type: 'Healthcare',
+                year: '2024',
+                size: '25,000 sqm',
+                description: 'Modern healthcare facility with advanced medical equipment'
+            }
+        };
+        
+        const project = projectData[location];
+        if (project) {
+            const infoDiv = document.getElementById('project-info');
+            infoDiv.innerHTML = `
+                <h5 class="fw-bold text-primary">${project.name}</h5>
+                <div class="mb-3">
+                    <span class="badge bg-primary">${project.type}</span>
+                    <span class="badge bg-secondary">${project.year}</span>
+                </div>
+                <p class="mb-2"><strong>Size:</strong> ${project.size}</p>
+                <p class="text-muted">${project.description}</p>
+                <div class="mt-3">
+                    <button class="btn btn-sm btn-outline-primary" onclick="viewProjectDetails('${location}')">
+                        <i class="fas fa-eye me-1"></i>View Details
+                    </button>
+                </div>
+            `;
+        }
+    }
+    
+    function viewProjectDetails(location) {
+        // Open project details modal or navigate to project page
+        const modal = new bootstrap.Modal(document.getElementById('projectDetailsModal'));
+        modal.show();
+    }
+
+    // ADVANCED: Newsletter Popup (show after 10 seconds)
+    setTimeout(() => {
+        const newsletterPopup = document.createElement('div');
+        newsletterPopup.className = 'newsletter-popup show';
+        newsletterPopup.innerHTML = `
+            <button type="button" class="btn-close float-end" onclick="this.parentElement.remove()"></button>
+            <div class="text-center">
+                <i class="fas fa-envelope fa-3x text-primary mb-3"></i>
+                <h4 class="fw-bold">Stay Updated!</h4>
+                <p class="text-muted">Get construction tips, project updates, and exclusive offers</p>
+                <form class="mt-3" onsubmit="subscribeNewsletter(event)">
+                    <input type="email" class="form-control mb-2" placeholder="Your email" required>
+                    <button type="submit" class="btn btn-primary w-100">Subscribe Now</button>
+                </form>
+                <small class="text-muted d-block mt-2">We respect your privacy</small>
+            </div>
+        `;
+        document.body.appendChild(newsletterPopup);
+    }, 10000);
+    
+    async function subscribeNewsletter(event) {
+        event.preventDefault();
+        const emailInput = event.target.querySelector('input[type="email"]');
+        const email = emailInput.value;
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        
+        // Disable button and show loading
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Subscribing...';
+        
+        // Show loading notification
+        let loadingNotification = null;
+        if (typeof showLoading !== 'undefined') {
+            loadingNotification = showLoading('Subscribing to newsletter...');
+        }
+        
+        try {
+            // Use API if available
+            if (typeof API !== 'undefined' && API.newsletter) {
+                const response = await API.newsletter.subscribe(email);
+                
+                if (response.success) {
+                    if (loadingNotification && typeof NotificationUtil !== 'undefined') {
+                        NotificationUtil.updateToSuccess(loadingNotification, 'Successfully subscribed! Check your email for confirmation.');
+                    } else if (typeof showSuccess !== 'undefined') {
+                        showSuccess('Thank you for subscribing! Check your email for confirmation.');
+                    } else {
+                        alert('Thank you for subscribing! Check your email for confirmation.');
+                    }
+                    event.target.closest('.newsletter-popup').remove();
+                } else {
+                    if (loadingNotification && typeof NotificationUtil !== 'undefined') {
+                        NotificationUtil.updateToError(loadingNotification, response.message || 'Failed to subscribe');
+                    } else if (typeof showError !== 'undefined') {
+                        showError(response.message || 'Failed to subscribe');
+                    } else {
+                        alert('Error: ' + (response.message || 'Failed to subscribe'));
+                    }
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
+            } else {
+                // Fallback to localStorage
+                console.log('Newsletter subscription (localStorage):', email);
+                if (loadingNotification && typeof NotificationUtil !== 'undefined') {
+                    NotificationUtil.updateToSuccess(loadingNotification, 'Successfully subscribed! Check your email for confirmation.');
+                } else if (typeof showSuccess !== 'undefined') {
+                    showSuccess('Thank you for subscribing! Check your email for confirmation.');
+                } else {
+                    alert('Thank you for subscribing! Check your email for confirmation.');
+                }
+                event.target.closest('.newsletter-popup').remove();
+            }
+        } catch (error) {
+            console.error('Newsletter subscription error:', error);
+            if (loadingNotification && typeof NotificationUtil !== 'undefined') {
+                NotificationUtil.updateToError(loadingNotification, 'Unable to connect to server. Please try again.');
+            } else if (typeof showError !== 'undefined') {
+                showError('Unable to connect to server. Please try again.');
+            } else {
+                alert('Error: Unable to connect to server. Please try again.');
+            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+        }
+    }
+
+    // ADVANCED: Floating Action Menu
+    const fabMenu = document.createElement('div');
+    fabMenu.className = 'fab-menu';
+    fabMenu.innerHTML = `
+        <div class="fab-options" id="fabOptions">
+            <div class="fab-option" onclick="window.location.href='cost-calculator.html'" title="Cost Calculator">
+                <i class="fas fa-calculator"></i>
+            </div>
+            <div class="fab-option" onclick="window.location.href='client-login.html'" title="Client Portal">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="fab-option" onclick="window.location.href='#sec-5'" title="Contact Us">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <div class="fab-option" onclick="window.location.href='tel:+25191159012'" title="Call Us">
+                <i class="fas fa-phone"></i>
+            </div>
+        </div>
+        <div class="fab-main" onclick="toggleFabMenu()">
+            <i class="fas fa-plus"></i>
+        </div>
+    `;
+    document.body.appendChild(fabMenu);
+    
+    function toggleFabMenu() {
+        const options = document.getElementById('fabOptions');
+        options.classList.toggle('show');
+    }
+
+    // Close FAB menu when clicking outside
+    document.addEventListener('click', (e) => {
+        const fabMenu = document.querySelector('.fab-menu');
+        if (fabMenu && !fabMenu.contains(e.target)) {
+            document.getElementById('fabOptions').classList.remove('show');
+        }
+    });
+
+    // ADVANCED: Scroll Progress Indicator
+    window.addEventListener('scroll', () => {
+        const scrollProgress = document.getElementById('scrollProgress');
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercentage = (scrollTop / scrollHeight) * 100;
+        scrollProgress.style.width = scrollPercentage + '%';
+    });
+
+    // ADVANCED: Dark Mode Toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    
+    // Check for saved dark mode preference
+    if (localStorage.getItem('darkMode') === 'enabled') {
+        body.classList.add('dark-mode');
+        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    
+    darkModeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        
+        if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('darkMode', 'enabled');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            showToast('Dark mode enabled', 'success');
+        } else {
+            localStorage.setItem('darkMode', 'disabled');
+            darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            showToast('Light mode enabled', 'success');
+        }
+    });
+
+    // ADVANCED: Enhanced Search Functionality
+    const searchIcon = document.getElementById('search');
+    const searchOverlay = document.getElementById('searchOverlay');
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    
+    if (searchIcon) {
+        searchIcon.addEventListener('click', () => {
+            searchOverlay.classList.add('active');
+            searchInput.focus();
+        });
+    }
+    
+    function closeSearch() {
+        searchOverlay.classList.remove('active');
+        searchInput.value = '';
+        searchResults.innerHTML = '';
+    }
+    
+    // Close search on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+            closeSearch();
+        }
+    });
+    
+    // Search functionality
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        
+        if (query.length < 2) {
+            searchResults.innerHTML = '';
+            return;
+        }
+        
+        // Mock search data
+        const searchData = [
+            { title: 'Cost Calculator', url: 'cost-calculator.html', type: 'Tool' },
+            { title: 'Client Portal', url: 'client-login.html', type: 'Portal' },
+            { title: 'Residential Projects', url: '#sec-4', type: 'Service' },
+            { title: 'Commercial Construction', url: '#sec-3', type: 'Service' },
+            { title: 'Our Team', url: '#sec-8', type: 'About' },
+            { title: 'Contact Us', url: '#sec-5', type: 'Contact' },
+            { title: 'Project Gallery', url: '#sec-4', type: 'Projects' },
+            { title: 'Blog & News', url: '#sec-13', type: 'Resources' }
+        ];
+        
+        const results = searchData.filter(item => 
+            item.title.toLowerCase().includes(query) || 
+            item.type.toLowerCase().includes(query)
+        );
+        
+        if (results.length > 0) {
+            searchResults.innerHTML = results.map(result => `
+                <div class="search-result-item p-3 mb-2 border-bottom" style="cursor: pointer;" onclick="window.location.href='${result.url}'; closeSearch();">
+                    <h6 class="mb-1">${result.title}</h6>
+                    <small class="text-muted">${result.type}</small>
+                </div>
+            `).join('');
+        } else {
+            searchResults.innerHTML = '<p class="text-muted text-center">No results found</p>';
+        }
+    });
+
+    // ADVANCED: Toast Notification System
+    function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `toast-notification ${type} show`;
+        toast.innerHTML = `
+            <div class="d-flex align-items-center">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} me-2"></i>
+                <span>${message}</span>
+            </div>
+        `;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 500);
+        }, 3000);
+    }
+
+    // ADVANCED: Lazy Loading Images
+    const lazyImages = document.querySelectorAll('img[data-src]');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.add('loaded');
+                observer.unobserve(img);
+            }
+        });
+    });
+    
+    lazyImages.forEach(img => imageObserver.observe(img));
+
+    // ADVANCED: Smooth Scroll for Anchor Links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href !== '#' && href !== '#menu') {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+    });
+
+    // ADVANCED: Page Load Performance Tracking
+    window.addEventListener('load', () => {
+        const loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+        console.log(`Page loaded in ${loadTime}ms`);
+        
+        // Show welcome toast after page load
+        setTimeout(() => {
+            showToast('Welcome to DB General Construction!', 'info');
+        }, 1000);
+    });
+
+    // ADVANCED: Auto-hide header on scroll down, show on scroll up
+    let lastScrollTop = 0;
+    const header = document.querySelector('header');
+    
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            // Scrolling down
+            header.style.transform = 'translateY(-100%)';
+        } else {
+            // Scrolling up
+            header.style.transform = 'translateY(0)';
+        }
+        
+        lastScrollTop = scrollTop;
+    }, { passive: true });
+    
+    // Add transition to header
+    if (header) {
+        header.style.transition = 'transform 0.3s ease';
+    }
+
+    // NEW: Quick Estimate Calculator
+    function calculateQuickEstimate() {
+        const projectType = document.getElementById('quickProjectType').value;
+        const size = parseFloat(document.getElementById('quickSize').value);
+        
+        if (!size || size <= 0) {
+            alert('Please enter a valid size');
+            return;
+        }
+        
+        const rates = {
+            residential: { min: 8000, max: 12000 },
+            commercial: { min: 12000, max: 18000 },
+            industrial: { min: 6000, max: 10000 }
+        };
+        
+        const rate = rates[projectType];
+        const minCost = (size * rate.min).toLocaleString();
+        const maxCost = (size * rate.max).toLocaleString();
+        
+        document.getElementById('quickEstimateAmount').textContent = `${minCost} - ${maxCost} ETB`;
+        document.getElementById('quickResult').style.display = 'block';
+        
+        showToast('Estimate calculated successfully!', 'success');
+    }
+
+    // NEW: Equipment Rental Calculator
+    function updateEquipmentCost() {
+        const equipmentType = document.getElementById('equipmentType').value;
+        const days = parseInt(document.getElementById('rentalDays').value) || 1;
+        const includeOperator = document.getElementById('includeOperator').checked;
+        
+        const rates = {
+            excavator: { base: 3500, operator: 1500 },
+            crane: { base: 8000, operator: 2500 },
+            mixer: { base: 1200, operator: 800 },
+            loader: { base: 4000, operator: 1800 },
+            bulldozer: { base: 5500, operator: 2000 }
+        };
+        
+        const rate = rates[equipmentType];
+        let dailyCost = rate.base;
+        if (includeOperator) {
+            dailyCost += rate.operator;
+        }
+        
+        const totalCost = (dailyCost * days).toLocaleString();
+        document.getElementById('equipmentCost').textContent = `${totalCost} ETB`;
+    }
+
+    // NEW: AI Chatbot
+    function openChatbot() {
+        showToast('AI Chatbot feature coming soon!', 'info');
+        // In production, this would open a chatbot widget
+        console.log('Opening AI chatbot...');
+    }
+
+    // NEW: Play Video Testimonial
+    function playVideo(videoId) {
+        showToast('Video player opening...', 'info');
+        console.log('Playing video:', videoId);
+        // In production, this would open a video modal
+    }
+
+    // NEW: Live Project Counter Animation
+    function animateLiveCounter() {
+        const counters = [
+            { id: 'liveProjectCounter', target: 45 },
+            { id: 'ongoingProjects', target: 12 },
+            { id: 'happyClients', target: 320 },
+            { id: 'teamMembers', target: 150 }
+        ];
+        
+        counters.forEach(counter => {
+            const element = document.getElementById(counter.id);
+            if (element) {
+                let current = 0;
+                const increment = counter.target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= counter.target) {
+                        element.textContent = counter.target;
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = Math.floor(current);
+                    }
+                }, 40);
+            }
+        });
+    }
+
+    // Trigger live counter animation when section is visible
+    const liveCounterSection = document.getElementById('sec-live-counter');
+    if (liveCounterSection) {
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateLiveCounter();
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        counterObserver.observe(liveCounterSection);
+    }
+
+    // Initialize equipment cost calculator
+    if (document.getElementById('equipmentType')) {
+        updateEquipmentCost();
+    }
+
+    // NEW: Before/After Slider Functionality
+    function initBeforeAfterSlider(sliderId, handleId) {
+        const slider = document.getElementById(sliderId);
+        const handle = document.getElementById(handleId);
+        
+        if (!slider || !handle) return;
+        
+        const afterImage = slider.querySelector('.after-image');
+        let isDragging = false;
+        
+        handle.addEventListener('mousedown', () => {
+            isDragging = true;
+        });
+        
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+        
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            
+            const rect = slider.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percentage = (x / rect.width) * 100;
+            
+            if (percentage >= 0 && percentage <= 100) {
+                afterImage.style.width = percentage + '%';
+                handle.style.left = percentage + '%';
+            }
+        });
+        
+        // Touch support for mobile
+        handle.addEventListener('touchstart', () => {
+            isDragging = true;
+        });
+        
+        document.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+        
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            
+            const rect = slider.getBoundingClientRect();
+            const x = e.touches[0].clientX - rect.left;
+            const percentage = (x / rect.width) * 100;
+            
+            if (percentage >= 0 && percentage <= 100) {
+                afterImage.style.width = percentage + '%';
+                handle.style.left = percentage + '%';
+            }
+        });
+    }
+
+    // Initialize before/after sliders
+    initBeforeAfterSlider('slider1', 'handle1');
+    initBeforeAfterSlider('slider2', 'handle2');
+
+    // Update material cost timestamp
+    function updateMaterialTimestamp() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        const dateString = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        const timestampElement = document.getElementById('lastUpdate');
+        if (timestampElement) {
+            timestampElement.textContent = `${dateString}, ${timeString}`;
+        }
+    }
+    
+    updateMaterialTimestamp();
+    // Update timestamp every 5 minutes
+    setInterval(updateMaterialTimestamp, 300000);
+
+    console.log('All new features initialized successfully!');
+</script>
+
+<script src="js/utils/api.js"></script>
+<script src="js/modules/newsletter.js"></script>
+<script>
+    // Initialize footer newsletter form
+    if (document.getElementById('footerNewsletterForm')) {
+        const footerNewsletter = new Newsletter('footerNewsletterForm');
+    }
+</script>
+
+<script>
+// Quote Form Handler - Module 2: Connect to Backend
+document.addEventListener('DOMContentLoaded', function() {
+    const quoteForm = document.getElementById('form-modern');
+    const msgElement = document.getElementById('msg-modern');
+    
+    if (quoteForm) {
+        quoteForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(quoteForm);
+            const serviceValue = formData.get('service');
+            const quoteData = {
+                client_name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone') || '',
+                service_type: (serviceValue && serviceValue !== '') ? serviceValue : 'General Inquiry',
+                project_location: '',  // Not in form, leave empty
+                estimated_budget: '',  // Not in form, leave empty
+                message: formData.get('message') || ''
+            };
+            
+            // Validate required fields
+            if (!quoteData.client_name || !quoteData.email || !quoteData.message) {
+                if (typeof showError !== 'undefined') {
+                    showError('Please fill in all required fields (Name, Email, Message)');
+                }
+                msgElement.textContent = 'Please fill in all required fields (Name, Email, Message)';
+                msgElement.className = 'mt-3 text-center text-danger';
+                return;
+            }
+            
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(quoteData.email)) {
+                if (typeof showError !== 'undefined') {
+                    showError('Please enter a valid email address');
+                }
+                msgElement.textContent = 'Please enter a valid email address';
+                msgElement.className = 'mt-3 text-center text-danger';
+                return;
+            }
+            
+            // Show loading notification
+            let loadingNotification = null;
+            if (typeof showLoading !== 'undefined') {
+                loadingNotification = showLoading('Sending your quote request...');
+            }
+            
+            // Show loading message in form
+            msgElement.textContent = 'Sending your request...';
+            msgElement.className = 'mt-3 text-center text-info';
+            
+            try {
+                // Send to backend API
+                const response = await API.quotes.create(quoteData);
+                
+                if (response.success) {
+                    // Success!
+                    if (loadingNotification && typeof NotificationUtil !== 'undefined') {
+                        NotificationUtil.updateToSuccess(loadingNotification, 'Quote request submitted successfully!');
+                    } else if (typeof showSuccess !== 'undefined') {
+                        showSuccess('Thank you! Your request has been submitted. We\'ll contact you soon.');
+                    }
+                    
+                    msgElement.textContent = 'Thank you! Your request has been submitted. We\'ll contact you soon.';
+                    msgElement.className = 'mt-3 text-center text-success';
+                    quoteForm.reset();
+                    
+                    // Hide message after 5 seconds
+                    setTimeout(() => {
+                        msgElement.textContent = '';
+                        msgElement.className = '';
+                    }, 5000);
+                } else {
+                    // API returned error
+                    if (loadingNotification && typeof NotificationUtil !== 'undefined') {
+                        NotificationUtil.updateToError(loadingNotification, response.message || 'Failed to submit request');
+                    } else if (typeof showError !== 'undefined') {
+                        showError(response.message || 'Failed to submit request');
+                    }
+                    
+                    msgElement.textContent = 'Error: ' + (response.message || 'Failed to submit request');
+                    msgElement.className = 'mt-3 text-center text-danger';
+                }
+            } catch (error) {
+                // Network or other error
+                console.error('Quote submission error:', error);
+                
+                if (loadingNotification && typeof NotificationUtil !== 'undefined') {
+                    NotificationUtil.updateToError(loadingNotification, 'Unable to connect to server. Please try again.');
+                } else if (typeof showError !== 'undefined') {
+                    showError('Unable to connect to server. Please try again.');
+                }
+                
+                msgElement.textContent = 'Error: Unable to connect to server. Please try again.';
+                msgElement.className = 'mt-3 text-center text-danger';
+            }
+        });
+    }
+});
+</script>
+
+<script src="js/wow.min.js"></script>
+<script> new WOW().init(); </script>
+<script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
