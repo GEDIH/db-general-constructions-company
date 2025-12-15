@@ -1,0 +1,712 @@
+/**
+ * Admin Modal Forms CSS
+ * Styles for professional modal forms with rich text editing
+ * Part of admin-modal-forms-upgrade spec
+ */
+
+/* ===== Modal Base Styles ===== */
+.modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px 15px 0 0;
+    padding: 20px 30px;
+    border-bottom: none;
+}
+
+.modal-header .modal-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.modal-header .btn-close {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+}
+
+.modal-header .btn-close:hover {
+    opacity: 1;
+}
+
+.modal-body {
+    padding: 30px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 20px 30px;
+    border-top: 1px solid #dee2e6;
+    background: #f8f9fa;
+    border-radius: 0 0 15px 15px;
+}
+
+/* ===== Form Field Styles ===== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-label.required::after {
+    content: ' *';
+    color: #dc3545;
+}
+
+.form-control,
+.form-select {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    padding: 10px 15px;
+    transition: all 0.3s;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.form-control:hover,
+.form-select:hover {
+    border-color: #adb5bd;
+}
+
+/* ===== Rich Text Editor Styles ===== */
+.editor-container {
+    margin-bottom: 20px;
+}
+
+.ql-container {
+    border-radius: 0 0 8px 8px;
+    border: 1px solid #dee2e6;
+    min-height: 200px;
+    font-size: 1rem;
+}
+
+.ql-toolbar {
+    border-radius: 8px 8px 0 0;
+    border: 1px solid #dee2e6;
+    background: #f8f9fa;
+}
+
+.ql-editor {
+    min-height: 200px;
+    font-size: 1rem;
+}
+
+.ql-editor.ql-blank::before {
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Quill toolbar button hover effects */
+.ql-toolbar button:hover,
+.ql-toolbar button:focus {
+    color: #667eea;
+}
+
+.ql-toolbar button.ql-active {
+    color: #667eea;
+}
+
+.ql-toolbar .ql-stroke {
+    stroke: #444;
+}
+
+.ql-toolbar button:hover .ql-stroke,
+.ql-toolbar button.ql-active .ql-stroke {
+    stroke: #667eea;
+}
+
+.ql-toolbar .ql-fill {
+    fill: #444;
+}
+
+.ql-toolbar button:hover .ql-fill,
+.ql-toolbar button.ql-active .ql-fill {
+    fill: #667eea;
+}
+
+/* ===== Image Upload Styles ===== */
+.image-upload-container {
+    margin-bottom: 20px;
+}
+
+.image-upload-area {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    background: #f8f9fa;
+}
+
+.image-upload-area:hover {
+    border-color: #667eea;
+    background: #f0f2ff;
+}
+
+.image-upload-area.drag-over {
+    border-color: #667eea;
+    background: #e8ebff;
+}
+
+.image-upload-icon {
+    font-size: 3rem;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+.image-upload-text {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.image-upload-text strong {
+    color: #667eea;
+}
+
+.image-preview-container {
+    margin-top: 15px;
+    display: none;
+}
+
+.image-preview-container.show {
+    display: block;
+}
+
+.image-preview {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+}
+
+.image-preview img {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 8px;
+    border: 2px solid #dee2e6;
+}
+
+.image-preview-remove {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s;
+}
+
+.image-preview-remove:hover {
+    background: #c82333;
+    transform: scale(1.1);
+}
+
+/* ===== Validation Error Styles ===== */
+.field-error {
+    border-color: #dc3545 !important;
+    background-color: #fff5f5;
+}
+
+.field-error:focus {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.error-message i {
+    font-size: 0.9rem;
+}
+
+.error-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #dc3545;
+    pointer-events: none;
+}
+
+/* ===== Dynamic List Input Styles ===== */
+.dynamic-list-container {
+    margin-bottom: 20px;
+}
+
+.dynamic-list-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.dynamic-list-item input {
+    flex: 1;
+}
+
+.dynamic-list-item .btn-remove {
+    flex-shrink: 0;
+}
+
+.btn-add-item {
+    width: 100%;
+    border: 2px dashed #dee2e6;
+    background: transparent;
+    color: #667eea;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.btn-add-item:hover {
+    border-color: #667eea;
+    background: #f0f2ff;
+}
+
+/* ===== Star Rating Selector ===== */
+.star-rating-container {
+    margin-bottom: 20px;
+}
+
+.star-rating {
+    display: flex;
+    gap: 5px;
+    font-size: 1.5rem;
+}
+
+.star-rating i {
+    color: #dee2e6;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.star-rating i:hover,
+.star-rating i.active {
+    color: #ffc107;
+}
+
+/* Star Rating Selector (Radio Button Style) */
+.star-rating-selector {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 5px;
+    font-size: 2rem;
+}
+
+.star-rating-selector input[type="radio"] {
+    display: none;
+}
+
+.star-rating-selector label {
+    cursor: pointer;
+    color: #dee2e6;
+    transition: all 0.3s;
+    margin: 0;
+}
+
+.star-rating-selector label:hover,
+.star-rating-selector label:hover ~ label,
+.star-rating-selector input[type="radio"]:checked ~ label {
+    color: #ffc107;
+}
+
+.star-rating-selector label i {
+    transition: all 0.3s;
+}
+
+.star-rating-selector label:hover i {
+    transform: scale(1.1);
+}
+
+/* ===== Tag Input Styles ===== */
+.tag-input-container {
+    margin-bottom: 20px;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.tag-item {
+    background: #667eea;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+}
+
+.tag-item .tag-remove {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.tag-item .tag-remove:hover {
+    opacity: 0.8;
+}
+
+/* ===== Button Styles ===== */
+.btn-save {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-save:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-cancel {
+    background: #6c757d;
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-cancel:hover {
+    background: #5a6268;
+}
+
+/* ===== Loading Spinner ===== */
+.loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ===== Compression Progress ===== */
+.compression-progress,
+.compression-success,
+.compression-error {
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+
+.compression-progress {
+    background: #e8f4fd;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.compression-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.compression-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.compression-progress i {
+    font-size: 1.2rem;
+}
+
+.compression-success i {
+    color: #28a745;
+    font-size: 1.2rem;
+}
+
+.compression-error i {
+    color: #dc3545;
+    font-size: 1.2rem;
+}
+
+/* ===== Notification Styles ===== */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateX(400px);
+    transition: all 0.3s ease;
+    max-width: 400px;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.notification-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.notification-warning {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.notification-info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.notification i {
+    font-size: 1.2rem;
+}
+
+.notification-success i {
+    color: #28a745;
+}
+
+.notification-error i {
+    color: #dc3545;
+}
+
+.notification-warning i {
+    color: #ffc107;
+}
+
+.notification-info i {
+    color: #17a2b8;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 0;
+    margin-left: auto;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.notification-close:hover {
+    opacity: 1;
+}
+
+.notification-close i {
+    font-size: 1rem;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+    .modal-body {
+        padding: 20px;
+        max-height: 60vh;
+    }
+    
+    .modal-header,
+    .modal-footer {
+        padding: 15px 20px;
+    }
+    
+    .image-preview img {
+        max-width: 100px;
+        max-height: 100px;
+    }
+    
+    .btn-save,
+    .btn-cancel {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
+
+/* ===== Dark Mode Support ===== */
+body.dark-mode .modal-content {
+    background: #16213e;
+    color: #eee;
+}
+
+body.dark-mode .modal-body {
+    background: #16213e;
+}
+
+body.dark-mode .modal-footer {
+    background: #1a2332;
+    border-top-color: #2a3447;
+}
+
+body.dark-mode .form-label {
+    color: #eee;
+}
+
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+    background: #1a2332;
+    border-color: #2a3447;
+    color: #eee;
+}
+
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+    background: #1a2332;
+    border-color: #667eea;
+}
+
+body.dark-mode .ql-toolbar {
+    background: #1a2332;
+    border-color: #2a3447;
+}
+
+body.dark-mode .ql-container {
+    background: #1a2332;
+    border-color: #2a3447;
+}
+
+body.dark-mode .ql-editor {
+    color: #eee;
+}
+
+body.dark-mode .image-upload-area {
+    background: #1a2332;
+    border-color: #2a3447;
+}
+
+body.dark-mode .image-upload-area:hover {
+    background: #1e2740;
+    border-color: #667eea;
+}
+
+body.dark-mode .error-message {
+    color: #ff6b6b;
+}
+
+body.dark-mode .btn-cancel {
+    background: #2a3447;
+}
+
+body.dark-mode .btn-cancel:hover {
+    background: #343d52;
+}
+
+/* Star Rating Selector Styles */
+.star-rating-selector {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 5px;
+    font-size: 2rem;
+}
+
+.star-rating-selector input[type="radio"] {
+    display: none;
+}
+
+.star-rating-selector label {
+    cursor: pointer;
+    color: #ddd;
+    transition: color 0.2s ease;
+}
+
+.star-rating-selector label:hover,
+.star-rating-selector label.hover {
+    color: #ffc107;
+}
+
+.star-rating-selector input[type="radio"]:checked ~ label,
+.star-rating-selector label.selected {
+    color: #ffc107;
+}
+
+.star-rating-selector label i {
+    pointer-events: none;
+}
+
+/* Ensure stars are highlighted correctly on selection */
+.star-rating-selector input[type="radio"]:checked ~ label {
+    color: #ffc107;
+}
+
+/* Hover effect for all stars up to the hovered one */
+.star-rating-selector:hover label {
+    color: #ddd;
+}
+
+.star-rating-selector label:hover ~ label {
+    color: #ffc107;
+}

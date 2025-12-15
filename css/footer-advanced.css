@@ -1,0 +1,532 @@
+/**
+ * Advanced Footer Design
+ * Modern, colorful, and professional footer styling
+ */
+
+/* ============================================
+   FOOTER MAIN STYLES
+   ============================================ */
+
+.footer-advanced {
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-gradient-bg {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    position: relative;
+    padding: 60px 0 0;
+    color: white;
+}
+
+.footer-gradient-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.footer-gradient-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.03)"/></svg>');
+    background-size: 100px 100px;
+    animation: footerPattern 30s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes footerPattern {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(100px, 100px); }
+}
+
+.footer-gradient-bg .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   FOOTER BRAND
+   ============================================ */
+
+.footer-brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.footer-brand i {
+    color: #ffc107;
+    filter: drop-shadow(0 0 10px rgba(255, 193, 7, 0.5));
+}
+
+.footer-description {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+
+/* ============================================
+   FOOTER HEADINGS
+   ============================================ */
+
+.footer-heading {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #ffc107, transparent);
+    border-radius: 2px;
+}
+
+/* ============================================
+   FOOTER LINKS
+   ============================================ */
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+.footer-links a i {
+    transition: transform 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #ffc107;
+    transform: translateX(5px);
+}
+
+.footer-links a:hover i {
+    transform: translateX(3px);
+}
+
+/* ============================================
+   FOOTER CONTACT
+   ============================================ */
+
+.footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-contact li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+}
+
+.footer-contact li i {
+    color: #ffc107;
+    margin-top: 3px;
+    font-size: 1.1rem;
+    min-width: 20px;
+}
+
+.footer-contact li span {
+    line-height: 1.6;
+}
+
+/* ============================================
+   SOCIAL LINKS
+   ============================================ */
+
+.footer-social-links {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.social-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1.1rem;
+}
+
+.social-icon:hover {
+    background: #ffc107;
+    color: #667eea;
+    transform: translateY(-5px) rotate(360deg);
+    box-shadow: 0 10px 25px rgba(255, 193, 7, 0.4);
+}
+
+/* ============================================
+   FOOTER BOTTOM
+   ============================================ */
+
+.footer-bottom {
+    margin-top: 40px;
+    padding: 30px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+}
+
+.footer-copyright {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.footer-copyright .year-text {
+    font-weight: 700;
+    color: #ffc107;
+}
+
+.footer-copyright .separator {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-copyright .company-name {
+    font-weight: 600;
+}
+
+.footer-copyright .rights-text {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* ============================================
+   DESIGNER CREDIT
+   ============================================ */
+
+.footer-designer {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.footer-designer i.fa-code {
+    color: #ffc107;
+    animation: codeIcon 2s ease-in-out infinite;
+}
+
+@keyframes codeIcon {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.footer-designer .designed-text {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-designer .designer-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #ffc107;
+    text-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+    position: relative;
+    padding: 5px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    transition: all 0.3s ease;
+}
+
+.footer-designer .designer-name:hover {
+    background: rgba(255, 193, 7, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+}
+
+.designer-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    background: linear-gradient(135deg, #ffc107, #ff9800);
+    border-radius: 50%;
+    color: white;
+    font-size: 0.8rem;
+    animation: starPulse 2s ease-in-out infinite;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+}
+
+@keyframes starPulse {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+        box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg);
+        box-shadow: 0 0 25px rgba(255, 193, 7, 0.8);
+    }
+}
+
+/* ============================================
+   DECORATIVE ELEMENTS
+   ============================================ */
+
+.footer-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.decoration-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    animation: floatCircle 20s ease-in-out infinite;
+}
+
+.decoration-1 {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    left: -150px;
+    animation-delay: 0s;
+}
+
+.decoration-2 {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    right: 10%;
+    animation-delay: 5s;
+}
+
+.decoration-3 {
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    right: -75px;
+    animation-delay: 10s;
+}
+
+@keyframes floatCircle {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(30px, -30px) scale(1.1);
+        opacity: 0.5;
+    }
+}
+
+/* ============================================
+   HOVER EFFECTS
+   ============================================ */
+
+.footer-advanced .row > div {
+    transition: transform 0.3s ease;
+}
+
+.footer-advanced .row > div:hover {
+    transform: translateY(-5px);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+    .footer-gradient-bg {
+        padding: 40px 0 0;
+    }
+
+    .footer-brand {
+        font-size: 1.3rem;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .footer-description {
+        text-align: center;
+    }
+
+    .footer-social-links {
+        justify-content: center;
+    }
+
+    .footer-heading {
+        text-align: center;
+    }
+
+    .footer-heading::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .footer-links {
+        text-align: center;
+    }
+
+    .footer-links a {
+        justify-content: center;
+    }
+
+    .footer-contact {
+        text-align: center;
+    }
+
+    .footer-contact li {
+        justify-content: center;
+    }
+
+    .footer-copyright,
+    .footer-designer {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .footer-bottom {
+        padding: 20px 0;
+    }
+
+    .decoration-1,
+    .decoration-2,
+    .decoration-3 {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .footer-brand {
+        font-size: 1.1rem;
+    }
+
+    .footer-heading {
+        font-size: 1rem;
+    }
+
+    .footer-links a,
+    .footer-contact li,
+    .footer-copyright,
+    .footer-designer {
+        font-size: 0.85rem;
+    }
+
+    .social-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .footer-designer .designer-name {
+        font-size: 1rem;
+    }
+}
+
+/* ============================================
+   ALTERNATIVE COLOR SCHEMES
+   ============================================ */
+
+/* Dark Footer */
+.footer-dark .footer-gradient-bg {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+
+/* Light Footer */
+.footer-light .footer-gradient-bg {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: #333;
+}
+
+.footer-light .footer-brand,
+.footer-light .footer-heading,
+.footer-light .footer-links a,
+.footer-light .footer-contact li,
+.footer-light .footer-copyright,
+.footer-light .footer-designer {
+    color: #333;
+}
+
+.footer-light .footer-links a:hover {
+    color: #667eea;
+}
+
+.footer-light .social-icon {
+    background: rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.footer-light .social-icon:hover {
+    background: #667eea;
+    color: white;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+    .footer-decoration,
+    .footer-social-links {
+        display: none;
+    }
+
+    .footer-gradient-bg {
+        background: white;
+        color: black;
+    }
+
+    .footer-gradient-bg::before,
+    .footer-gradient-bg::after {
+        display: none;
+    }
+}
